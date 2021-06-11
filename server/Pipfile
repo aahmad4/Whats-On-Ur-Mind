@@ -9,6 +9,7 @@ flask-restful = "*"
 flask-sqlalchemy = "*"
 flask-jwt-extended = "*"
 passlib = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

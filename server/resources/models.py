@@ -1,8 +1,10 @@
-from ..app import db
+from flask_sqlalchemy import SQLAlchemy
 import datetime
 
+db = SQLAlchemy()
+
 class User(db.Model):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
@@ -17,10 +19,10 @@ class User(db.Model):
 
 
 class Question(db.Model):
-    __tablename__ = 'question'
+    __tablename__ = 'questions'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     question_text = db.Column(db.Text, nullable=False)
     answer_text = db.Column(db.Text, default="")
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
