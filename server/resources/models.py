@@ -11,6 +11,10 @@ class User(db.Model):
     first_name = db.Column(db.String(120), nullable=False)
     last_name = db.Column(db.String(120), nullable=False)
 
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
 
 class Question(db.Model):
     __tablename__ = 'question'
@@ -20,3 +24,7 @@ class Question(db.Model):
     question_text = db.Column(db.Text, nullable=False)
     answer_text = db.Column(db.Text, default="")
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
