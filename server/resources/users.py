@@ -3,15 +3,21 @@ from .models import User
 
 parser = reqparse.RequestParser()
 
-parser.add_argument('username', help='This field cannot be blank', required=True)
-parser.add_argument('email', help='This field cannot be blank', required=True)
-parser.add_argument('password', help='This field cannot be blank', required=True)
-parser.add_argument('first_name', help='This field cannot be blank', required=True)
-parser.add_argument('last_name', help='This field cannot be blank', required=True)
+parser.add_argument('username', help='This field cannot be blank')
+parser.add_argument('email', help='This field cannot be blank')
+parser.add_argument('password', help='This field cannot be blank')
+parser.add_argument('first_name', help='This field cannot be blank')
+parser.add_argument('last_name', help='This field cannot be blank')
 
 class UserRegistration(Resource):
     def post(self):
         data = parser.parse_args()
+
+        if User.find_by_username(data['username']):
+            return {'message': f'User {data["username"]} already exists'}
+
+        if User.find_by_email(data['email']):
+            return {'message': f'User {data["email"]} already exists'}
 
         new_user = User(
             username = data['username'],
@@ -30,4 +36,17 @@ class UserRegistration(Resource):
 
 class UserLogin(Resource):
     def post(self):
-        return {'message': 'User login'}
+        data = parser.parse_args()
+
+        if data['username']:
+            current_user = User.find_by_username(data['username'])
+        elif data['email']:
+            current_user = User.find_by_email(data['email'])
+
+        if not current_user:
+            return {'message': f'User doesn\'t exist'}
+        
+        if data['password'] == current_user.password:
+            return {'message': f'Logged in as {current_user.username}'}
+        else:
+            return {'message': 'Wrong credentials'}
