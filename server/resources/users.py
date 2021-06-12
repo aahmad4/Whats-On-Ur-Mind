@@ -1,52 +1,90 @@
 from flask_restful import Resource, reqparse
-from .models import User
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+    jwt_refresh_token_required,
+    get_jwt_identity,
+    get_raw_jwt,
+    jwt_required
+)
+from models.users import UserModel
+from blacklist import BLACKLIST
 
-parser = reqparse.RequestParser()
+_user_parser = reqparse.RequestParser()
+_user_parser.add_argument('first_name', type=str)
+_user_parser.add_argument('last_name', type=str)
+_user_parser.add_argument('username', type=str)
+_user_parser.add_argument('email', type=str)
+_user_parser.add_argument('password', type=str,
+                          required=True, help="This field cannot be blank.")
 
-parser.add_argument('username', help='This field cannot be blank')
-parser.add_argument('email', help='This field cannot be blank')
-parser.add_argument('password', help='This field cannot be blank')
-parser.add_argument('first_name', help='This field cannot be blank')
-parser.add_argument('last_name', help='This field cannot be blank')
 
-class UserRegistration(Resource):
+class UserRegister(Resource):
     def post(self):
-        data = parser.parse_args()
+        data = _user_parser.parse_args()
 
-        if User.find_by_username(data['username']):
-            return {'message': f'User {data["username"]} already exists'}
+        if UserModel.find_by_username(data['username']):
+            return {"message": "A user with that username already exists"}, 400
 
-        if User.find_by_email(data['email']):
-            return {'message': f'User {data["email"]} already exists'}
+        if UserModel.find_by_email(data['email']):
+            return {"message": "A user with that email already exists"}, 400
 
-        new_user = User(
-            username = data['username'],
-            email = data['email'],
-            password = data['password'],
-            first_name = data['first_name'],
-            last_name = data['last_name'],
+        user = UserModel(
+            username=data['username'],
+            email=data['email'],
+            password=UserModel.generate_hash(data['password']),
+            first_name=data['first_name'],
+            last_name=data['last_name'],
         )
 
         try:
-            new_user.save_to_db()
-            return {'message': f"User {data['username']} was created"}
+            user.save_to_db()
+
+            access_token = create_access_token(identity=user.id, fresh=True)
+            refresh_token = create_refresh_token(user.id)
+
+            return {
+                'message': f"User {data['username']} was created",
+                'access_token': access_token,
+                'refresh_token': refresh_token
+            }, 201
+
         except:
             return {'message': 'Something went wrong'}, 500
 
 
 class UserLogin(Resource):
     def post(self):
-        data = parser.parse_args()
+        data = _user_parser.parse_args()
 
         if data['username']:
-            current_user = User.find_by_username(data['username'])
+            user = UserModel.find_by_username(data['username'])
         elif data['email']:
-            current_user = User.find_by_email(data['email'])
+            user = UserModel.find_by_email(data['email'])
 
-        if not current_user:
-            return {'message': f'User doesn\'t exist'}
-        
-        if data['password'] == current_user.password:
-            return {'message': f'Logged in as {current_user.username}'}
-        else:
-            return {'message': 'Wrong credentials'}
+        if user and UserModel.verify_hash(data['password'], user.password):
+            access_token = create_access_token(identity=user.id, fresh=True)
+            refresh_token = create_refresh_token(user.id)
+
+            return {
+                'access_token': access_token,
+                'refresh_token': refresh_token
+            }, 200
+
+        return {'message': 'Invalid credentials!'}, 401
+
+
+class UserLogout(Resource):
+    @jwt_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+        BLACKLIST.add(jti)
+        return {"message": "Successfully logged out"}, 200
+
+
+class TokenRefresh(Resource):
+    @jwt_refresh_token_required
+    def post(self):
+        current_user = get_jwt_identity()
+        new_token = create_access_token(identity=current_user, fresh=False)
+        return {'access_token': new_token}, 200

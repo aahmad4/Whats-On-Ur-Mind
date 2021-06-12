@@ -7,9 +7,10 @@ name = "pypi"
 flask = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
-flask-jwt-extended = "*"
 passlib = "*"
 psycopg2 = "*"
+autopep8 = "*"
+flask-jwt-extended = "==3.25.0"
 
 [dev-packages]
 
