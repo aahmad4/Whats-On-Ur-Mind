@@ -1,10 +1,11 @@
 import React from 'react';
-import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import HomeScreen from './screens/HomeScreen';
 
 export default function App() {
   return (
-    <>
-      <Navbar />
-    </>
+    <Router>
+      <Route path="/" exact component={HomeScreen} />
+    </Router>
   );
 }

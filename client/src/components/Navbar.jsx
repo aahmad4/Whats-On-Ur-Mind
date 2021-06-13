@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   chakra,
   Box,
@@ -13,8 +14,13 @@ import {
   CloseButton,
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
 
 export default function Navbar() {
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
+
   const bg = useColorModeValue('white', 'gray.800');
   const mobileNav = useDisclosure();
 
@@ -30,8 +36,9 @@ export default function Navbar() {
         <Flex alignItems="center" justifyContent="space-between" mx="auto">
           <Flex>
             <chakra.a
-              href="/"
-              title="Choc Home Page"
+              as={Link}
+              to="/"
+              title="Ask Me Anything Home Page"
               display="flex"
               alignItems="center"
             >
@@ -41,9 +48,15 @@ export default function Navbar() {
                 height="auto"
                 alt="Ask Me Anything Question Mark Logo"
               />
-              <VisuallyHidden>Choc</VisuallyHidden>
+              <VisuallyHidden>Ask Me Anything</VisuallyHidden>
             </chakra.a>
-            <chakra.h1 fontSize="xl" fontWeight="medium" ml="2">
+            <chakra.h1
+              as={Link}
+              to="/"
+              fontSize="xl"
+              fontWeight="medium"
+              ml="2"
+            >
               Ask Me Anything
             </chakra.h1>
           </Flex>
@@ -56,9 +69,12 @@ export default function Navbar() {
             >
               <Button variant="ghost">Features</Button>
               <Button variant="ghost">Pricing</Button>
-              <Button variant="ghost">Sign in</Button>
+              <Button variant="ghost" onClick={() => setLoginModalOpen(true)}>
+                Sign in
+              </Button>
             </HStack>
             <Button
+              onClick={() => setRegisterModalOpen(true)}
               color={'white'}
               bg={'red.400'}
               href={'#'}
@@ -105,7 +121,11 @@ export default function Navbar() {
                 <Button w="full" variant="ghost">
                   Pricing
                 </Button>
-                <Button w="full" variant="ghost">
+                <Button
+                  w="full"
+                  variant="ghost"
+                  onClick={() => setLoginModalOpen(true)}
+                >
                   Sign in
                 </Button>
               </VStack>
@@ -113,6 +133,14 @@ export default function Navbar() {
           </HStack>
         </Flex>
       </chakra.header>
+      <RegisterModal
+        isOpen={registerModalOpen}
+        setRegisterModalOpen={setRegisterModalOpen}
+      />
+      <LoginModal
+        isOpen={loginModalOpen}
+        setLoginModalOpen={setLoginModalOpen}
+      />
     </React.Fragment>
   );
 }
