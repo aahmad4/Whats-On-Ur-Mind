@@ -13,6 +13,7 @@ import {
   Input,
   Center,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { TiSocialTwitter } from 'react-icons/ti';
 import { GoMarkGithub } from 'react-icons/go';
@@ -30,6 +31,8 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
   const initialRef = useRef();
 
   const { userDetails } = useHookState(store);
+
+  const toast = useToast();
 
   const handleSubmit = async () => {
     try {
@@ -51,7 +54,16 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
 
       userDetails.set(data);
       localStorage.setItem('userDetails', JSON.stringify(data));
+
       setRegisterModalOpen(false);
+
+      toast({
+        title: 'Account created.',
+        description: data.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
     } catch (error) {
       if (error.response) {
         setError(error.response.data.message);

@@ -14,6 +14,7 @@ import {
   ModalFooter,
   Center,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { TiSocialTwitter } from 'react-icons/ti';
 import { GoMarkGithub } from 'react-icons/go';
@@ -30,6 +31,8 @@ export default function LoginModal({ isOpen, setLoginModalOpen }) {
   const initialRef = useRef();
 
   const { userDetails } = useHookState(store);
+
+  const toast = useToast();
 
   const handleSubmit = async () => {
     try {
@@ -49,7 +52,16 @@ export default function LoginModal({ isOpen, setLoginModalOpen }) {
 
       userDetails.set(data);
       localStorage.setItem('userDetails', JSON.stringify(data));
+
       setLoginModalOpen(false);
+
+      toast({
+        title: 'Account authenticated.',
+        description: data.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
     } catch (error) {
       setError(error.response.data.message);
     }
