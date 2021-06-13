@@ -1,5 +1,10 @@
 import React from 'react';
+import Navbar from './components/Navbar';
 
 export default function App() {
-  return <div>Why isn't the font different :(</div>;
+  return (
+    <>
+      <Navbar />
+    </>
+  );
 }
