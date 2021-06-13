@@ -29,7 +29,7 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
 
   const initialRef = useRef();
 
-  const { userInfo } = useHookState(store);
+  const { userDetails } = useHookState(store);
 
   const handleSubmit = async () => {
     try {
@@ -49,8 +49,9 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
         }
       );
 
-      userInfo.set(data);
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      userDetails.set(data);
+      localStorage.setItem('userDetails', JSON.stringify(data));
+      setRegisterModalOpen(false);
     } catch (error) {
       if (error.response) {
         setError(error.response.data.message);

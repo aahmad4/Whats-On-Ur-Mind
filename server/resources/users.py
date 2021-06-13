@@ -58,9 +58,9 @@ class UserLogin(Resource):
     def post(self):
         data = _user_parser.parse_args()
 
-        if data['username']:
-            user = UserModel.find_by_username(data['username'])
-        elif data['email']:
+        user = UserModel.find_by_username(data['username'])
+
+        if not user:
             user = UserModel.find_by_email(data['email'])
 
         if user and UserModel.verify_hash(data['password'], user.password):

@@ -1,11 +1,11 @@
 import { createState } from '@hookstate/core';
 
-const userInfoFromStorage = localStorage.getItem('userInfo')
-  ? JSON.parse(localStorage.getItem('userInfo'))
+const userDetailsFromStorage = localStorage.getItem('userDetails')
+  ? JSON.parse(localStorage.getItem('userDetails'))
   : {};
 
 const store = createState({
-  userInfo: userInfoFromStorage,
+  userDetails: userDetailsFromStorage,
   questions: [],
 });
 
