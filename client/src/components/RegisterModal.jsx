@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
 import {
   Button,
   Modal,
@@ -15,10 +16,47 @@ import {
 } from '@chakra-ui/react';
 import { TiSocialTwitter } from 'react-icons/ti';
 import { GoMarkGithub } from 'react-icons/go';
+import { useState as useHookState } from '@hookstate/core';
+import store from '../state/store';
 import DividerWithText from './DividerWithText';
+import AlertMessage from './AlertMessage';
 
 export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
   const initialRef = useRef();
+
+  const { userInfo } = useHookState(store);
+
+  const handleSubmit = async () => {
+    try {
+      const { data } = await axios.post(
+        '/api/users/register',
+        {
+          username,
+          email,
+          password,
+          first_name: '',
+          last_name: '',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      userInfo.set(data);
+      localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.message);
+      }
+    }
+  };
 
   return (
     <Modal
@@ -31,24 +69,37 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
         <ModalHeader>Create your account</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={2}>
-          <FormControl>
+          {error && <AlertMessage status="error" text={error} />}
+          <FormControl mt={error && 4}>
             <FormLabel>Username</FormLabel>
-            <Input ref={initialRef} placeholder="Username" />
+            <Input
+              ref={initialRef}
+              placeholder="Username"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+            />
           </FormControl>
-
           <FormControl mt={4}>
             <FormLabel>Email</FormLabel>
-            <Input placeholder="Email" />
+            <Input
+              placeholder="Email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
           </FormControl>
-
           <FormControl mt={4}>
             <FormLabel>Password</FormLabel>
-            <Input placeholder="Password" type="password" />
+            <Input
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
           </FormControl>
-
           <FormControl mt={6}>
             <Button
               type="submit"
+              onClick={handleSubmit}
               bg={'red.400'}
               _hover={{
                 bg: 'red.300',

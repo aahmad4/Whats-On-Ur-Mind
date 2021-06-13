@@ -15,8 +15,7 @@ _user_parser.add_argument('first_name', type=str)
 _user_parser.add_argument('last_name', type=str)
 _user_parser.add_argument('username', type=str)
 _user_parser.add_argument('email', type=str)
-_user_parser.add_argument('password', type=str,
-                          required=True, help="This field cannot be blank.")
+_user_parser.add_argument('password', type=str)
 
 
 class UserRegister(Resource):
@@ -45,6 +44,8 @@ class UserRegister(Resource):
 
             return {
                 'message': f"User {data['username']} was created",
+                'username': user.username,
+                'email': user.email,
                 'access_token': access_token,
                 'refresh_token': refresh_token
             }, 201
@@ -67,6 +68,9 @@ class UserLogin(Resource):
             refresh_token = create_refresh_token(user.id)
 
             return {
+                'message': f"User {data['username']} was logged in",
+                'username': user.username,
+                'email': user.email,
                 'access_token': access_token,
                 'refresh_token': refresh_token
             }, 200
