@@ -7,6 +7,7 @@ from flask_jwt_extended import (
     get_raw_jwt,
     jwt_required
 )
+import re
 from models.users import UserModel
 from blacklist import BLACKLIST
 
@@ -21,6 +22,12 @@ _user_parser.add_argument('password', type=str)
 class UserRegister(Resource):
     def post(self):
         data = _user_parser.parse_args()
+
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", data['email']):
+            return {"message": "Invalid email format!"}, 400
+
+        if len(data['password']) < 6:
+            return {"message": "Password must be at least 6 characters"}, 400
 
         if UserModel.find_by_username(data['username']):
             return {"message": "A user with that username already exists"}, 400
