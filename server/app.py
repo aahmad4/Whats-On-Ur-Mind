@@ -12,7 +12,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_folder='../client/build', static_url_path='/')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('POSTGRES_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -81,6 +82,16 @@ def create_tables():
     db.create_all()
 
 
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
+
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+
+
 api.add_resource(UserRegister, '/api/users/register')
 api.add_resource(UserLogin, '/api/users/login')
 api.add_resource(UserLogout, '/api/users/logout')
@@ -92,4 +103,5 @@ api.add_resource(
 
 if __name__ == "__main__":
     db.init_app(app)
-    app.run(port=5000, debug=True)
+    # app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
