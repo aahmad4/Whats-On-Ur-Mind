@@ -3,6 +3,7 @@ from server.db import db
 
 import os
 
+db.init_app(app)
+
 if __name__ == "__main__":
-    db.init_app(app)
     app.run(port=int(os.getenv('PORT', 33507))) 
