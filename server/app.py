@@ -15,7 +15,7 @@ load_dotenv()
 if os.getenv('FLASK_ENV') == 'development':
     app = Flask(__name__)
 else:
-    app = Flask(__name__, static_folder='./client/build', static_url_path='/')
+    app = Flask(__name__, static_folder='../client/build', static_url_path='/')
     
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('POSTGRES_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -103,12 +103,3 @@ api.add_resource(TokenRefresh, '/api/users/refresh')
 api.add_resource(QuestionList, '/api/questions/<int:user_id>')
 api.add_resource(
     QuestionOptions, '/api/questions/<int:user_id>/<int:question_id>')
-
-
-if os.getenv('FLASK_ENV') != 'development':
-    db.init_app(app)
-    app.run()
-else:
-    if __name__ == "__main__":
-        db.init_app(app)
-        app.run(port=5000, debug=True)
