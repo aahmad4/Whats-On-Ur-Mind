@@ -101,7 +101,10 @@ api.add_resource(
     QuestionOptions, '/api/questions/<int:user_id>/<int:question_id>')
 
 
-if __name__ == "__main__":
-    db.init_app(app)
-    # app.run(port=5000, debug=True)
-    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
+db.init_app(app)
+app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
+
+
+# if __name__ == "__main__":
+#     db.init_app(app)
+#     app.run(port=5000, debug=True)
