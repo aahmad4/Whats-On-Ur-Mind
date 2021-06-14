@@ -23,17 +23,17 @@ class UserRegister(Resource):
     def post(self):
         data = _user_parser.parse_args()
 
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", data['email']):
-            return {"message": "Invalid email format!"}, 400
-
-        if len(data['password']) < 6:
-            return {"message": "Password must be at least 6 characters"}, 400
-
         if UserModel.find_by_username(data['username']):
             return {"message": "A user with that username already exists"}, 400
 
         if UserModel.find_by_email(data['email']):
             return {"message": "A user with that email already exists"}, 400
+
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", data['email']):
+            return {"message": "Invalid email format!"}, 400
+
+        if len(data['password']) < 6:
+            return {"message": "Password must be at least 6 characters"}, 400
 
         user = UserModel(
             username=data['username'],
