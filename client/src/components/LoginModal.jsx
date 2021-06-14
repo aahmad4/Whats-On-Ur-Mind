@@ -53,6 +53,10 @@ export default function LoginModal({ isOpen, setLoginModalOpen }) {
       userDetails.set(data);
       localStorage.setItem('userDetails', JSON.stringify(data));
 
+      setUsernameEmail('');
+      setPassword('');
+      setError(null);
+
       setLoginModalOpen(false);
 
       toast({
@@ -64,11 +68,21 @@ export default function LoginModal({ isOpen, setLoginModalOpen }) {
       });
     } catch (error) {
       setError(error.response.data.message);
+      setUsernameEmail('');
+      setPassword('');
     }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={() => setLoginModalOpen(false)}>
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        setLoginModalOpen(false);
+        setUsernameEmail('');
+        setPassword('');
+        setError(null);
+      }}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Log in to your account</ModalHeader>

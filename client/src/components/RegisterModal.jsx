@@ -55,6 +55,11 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
       userDetails.set(data);
       localStorage.setItem('userDetails', JSON.stringify(data));
 
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setError(null);
+
       setRegisterModalOpen(false);
 
       toast({
@@ -67,6 +72,9 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
     } catch (error) {
       if (error.response) {
         setError(error.response.data.message);
+        setUsername('');
+        setEmail('');
+        setPassword('');
       }
     }
   };
@@ -75,7 +83,13 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
     <Modal
       scrollBehavior={'inside'}
       isOpen={isOpen}
-      onClose={() => setRegisterModalOpen(false)}
+      onClose={() => {
+        setRegisterModalOpen(false);
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setError(null);
+      }}
     >
       <ModalOverlay />
       <ModalContent>
