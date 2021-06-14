@@ -12,8 +12,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# app = Flask(__name__)
-app = Flask(__name__, static_folder='./client/build', static_url_path='/')
+if os.getenv('FLASK_ENV') == 'development':
+    app = Flask(__name__)
+else:
+    app = Flask(__name__, static_folder='./client/build', static_url_path='/')
+    
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('POSTGRES_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -82,14 +85,15 @@ def create_tables():
     db.create_all()
 
 
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
+if os.getenv('FLASK_ENV') != 'development':
+    @app.route('/')
+    def index():
+        return app.send_static_file('index.html')
 
 
-@app.errorhandler(404)
-def not_found(e):
-    return app.send_static_file('index.html')
+    @app.errorhandler(404)
+    def not_found(e):
+        return app.send_static_file('index.html')
 
 
 api.add_resource(UserRegister, '/api/users/register')
@@ -101,10 +105,10 @@ api.add_resource(
     QuestionOptions, '/api/questions/<int:user_id>/<int:question_id>')
 
 
-db.init_app(app)
-app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
-
-
-# if __name__ == "__main__":
-#     db.init_app(app)
-#     app.run(port=5000, debug=True)
+if os.getenv('FLASK_ENV') != 'development':
+    db.init_app(app)
+    app.run()
+else:
+    if __name__ == "__main__":
+        db.init_app(app)
+        app.run(port=5000, debug=True)
