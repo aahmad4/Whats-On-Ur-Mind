@@ -2,10 +2,10 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
-from db import db
-from blacklist import BLACKLIST
-from resources.users import UserRegister, UserLogin, UserLogout, TokenRefresh
-from resources.questions import QuestionList, QuestionOptions
+from server.db import db
+from server.blacklist import BLACKLIST
+from server.resources.users import UserRegister, UserLogin, UserLogout, TokenRefresh
+from server.resources.questions import QuestionList, QuestionOptions
 
 import os
 from dotenv import load_dotenv
@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # app = Flask(__name__)
-app = Flask(__name__, static_folder='../client/build', static_url_path='/')
+app = Flask(__name__, static_folder='./client/build', static_url_path='/')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('POSTGRES_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -103,5 +103,5 @@ api.add_resource(
 
 if __name__ == "__main__":
     db.init_app(app)
-    # app.run(port=5000, debug=True)
-    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
+    app.run(port=5000, debug=True)
+    # app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))

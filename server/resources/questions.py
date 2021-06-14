@@ -6,8 +6,8 @@ from flask_jwt_extended import (
     fresh_jwt_required,
     jwt_optional
 )
-from models.questions import QuestionModel
-from models.users import UserModel
+from server.models.questions import QuestionModel
+from server.models.users import UserModel
 
 
 class QuestionList(Resource):

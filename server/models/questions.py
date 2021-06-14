@@ -1,4 +1,4 @@
-from db import db
+from server.db import db
 import json
 
 

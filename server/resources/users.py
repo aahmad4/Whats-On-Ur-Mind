@@ -8,8 +8,8 @@ from flask_jwt_extended import (
     jwt_required
 )
 import re
-from models.users import UserModel
-from blacklist import BLACKLIST
+from server.models.users import UserModel
+from server.blacklist import BLACKLIST
 
 _user_parser = reqparse.RequestParser()
 _user_parser.add_argument('first_name', type=str)
