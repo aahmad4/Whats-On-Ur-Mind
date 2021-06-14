@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {
   chakra,
@@ -12,8 +13,11 @@ import {
   VStack,
   IconButton,
   CloseButton,
+  useToast,
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
+import { useState as useHookState } from '@hookstate/core';
+import store from '../state/store';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 
@@ -23,6 +27,49 @@ export default function Navbar() {
 
   const bg = useColorModeValue('white', 'gray.800');
   const mobileNav = useDisclosure();
+
+  const { userDetails } = useHookState(store);
+
+  const toast = useToast();
+
+  const handleLogout = async () => {
+    try {
+      const { data } = await axios.post(
+        '/api/users/refresh',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userDetails.get().refresh_token}`,
+          },
+        }
+      );
+
+      const { data: logoutData } = await axios.post(
+        '/api/users/logout',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        }
+      );
+
+      userDetails.set(null);
+      localStorage.removeItem('userDetails');
+
+      toast({
+        title: 'Account logged out.',
+        description: logoutData.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -69,21 +116,41 @@ export default function Navbar() {
             >
               <Button variant="ghost">Features</Button>
               <Button variant="ghost">Pricing</Button>
-              <Button variant="ghost" onClick={() => setLoginModalOpen(true)}>
-                Sign in
-              </Button>
+              {!userDetails.get() ? (
+                <Button variant="ghost" onClick={() => setLoginModalOpen(true)}>
+                  Sign in
+                </Button>
+              ) : (
+                <Button variant="ghost">
+                  Signed in as {userDetails.get().username}
+                </Button>
+              )}
             </HStack>
-            <Button
-              onClick={() => setRegisterModalOpen(true)}
-              color={'white'}
-              bg={'red.400'}
-              href={'#'}
-              _hover={{
-                bg: 'red.300',
-              }}
-            >
-              Sign up
-            </Button>
+            {!userDetails.get() ? (
+              <Button
+                onClick={() => setRegisterModalOpen(true)}
+                color={'white'}
+                bg={'red.400'}
+                href={'#'}
+                _hover={{
+                  bg: 'red.300',
+                }}
+              >
+                Sign up
+              </Button>
+            ) : (
+              <Button
+                onClick={handleLogout}
+                color={'white'}
+                bg={'red.400'}
+                href={'#'}
+                _hover={{
+                  bg: 'red.300',
+                }}
+              >
+                Log out
+              </Button>
+            )}
             <Box display={{ base: 'inline-flex', md: 'none' }}>
               <IconButton
                 display={{ base: 'flex', md: 'none' }}
@@ -121,13 +188,19 @@ export default function Navbar() {
                 <Button w="full" variant="ghost">
                   Pricing
                 </Button>
-                <Button
-                  w="full"
-                  variant="ghost"
-                  onClick={() => setLoginModalOpen(true)}
-                >
-                  Sign in
-                </Button>
+                {!userDetails.get() ? (
+                  <Button
+                    w="full"
+                    variant="ghost"
+                    onClick={() => setLoginModalOpen(true)}
+                  >
+                    Sign in
+                  </Button>
+                ) : (
+                  <Button w="full" variant="ghost">
+                    Signed in as {userDetails.get().username}
+                  </Button>
+                )}
               </VStack>
             </Box>
           </HStack>
