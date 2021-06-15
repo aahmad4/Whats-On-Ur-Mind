@@ -11,6 +11,7 @@ import {
   ListItem,
   ListIcon,
   Button,
+  Container,
 } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
 
@@ -32,14 +33,14 @@ function PriceWrapper({ children }) {
 export default function Pricing() {
   return (
     <Box py={12}>
-      <VStack spacing={2} textAlign="center">
+      <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
         <Heading as="h1" fontSize="4xl">
-          Simple pricing
+          Pricing
         </Heading>
         <Text color={'gray.600'} fontSize={'xl'}>
-          Gain complete access for free. Upgrade as needed.
+          Start out free. Upgrade as needed.
         </Text>
-      </VStack>
+      </Stack>
       <Stack
         direction={{ base: 'column', md: 'row' }}
         textAlign="center"
