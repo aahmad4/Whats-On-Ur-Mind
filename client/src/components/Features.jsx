@@ -13,7 +13,7 @@ import { FcAssistant, FcDonate, FcInTransit } from 'react-icons/fc';
 
 function Feature({ title, text, icon }) {
   return (
-    <Stack>
+    <Stack textAlign={'center'} alignItems={'center'}>
       <Flex
         w={16}
         h={16}
