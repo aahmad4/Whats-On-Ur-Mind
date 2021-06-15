@@ -11,7 +11,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  ModalFooter,
   Center,
   Text,
   useToast,
@@ -109,49 +108,51 @@ export default function LoginModal({ isOpen, setLoginModalOpen }) {
               onChange={e => setPassword(e.target.value)}
             />
           </FormControl>
-        </ModalBody>
 
-        <ModalFooter>
-          <Button
-            type="submit"
-            onClick={handleSubmit}
-            bg={'red.400'}
-            _hover={{
-              bg: 'red.300',
-            }}
-            size="lg"
-            fontSize="md"
-            width="100%"
-          >
-            Sign in
-          </Button>
-        </ModalFooter>
-        <DividerWithText>or continue with</DividerWithText>
-        <ModalFooter mb={2} display="flex" flexDirection="column">
-          <Button
-            size="lg"
-            fontSize="md"
-            width="100%"
-            colorScheme={'twitter'}
-            leftIcon={<TiSocialTwitter />}
-          >
-            <Center>
-              <Text>Sign in with Twitter</Text>
-            </Center>
-          </Button>
-          <Button
-            mt={4}
-            size="lg"
-            fontSize="md"
-            width="100%"
-            colorScheme={'gray'}
-            leftIcon={<GoMarkGithub />}
-          >
-            <Center>
-              <Text>Sign in with GitHub</Text>
-            </Center>
-          </Button>
-        </ModalFooter>
+          <FormControl mt={6}>
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              bg={'red.400'}
+              _hover={{
+                bg: 'red.300',
+              }}
+              size="lg"
+              fontSize="md"
+              width="100%"
+            >
+              Sign in
+            </Button>
+          </FormControl>
+          <FormControl mt={4}>
+            <DividerWithText>or continue with</DividerWithText>
+          </FormControl>
+          <FormControl mt={4} mb={4}>
+            <Button
+              size="lg"
+              fontSize="md"
+              width="100%"
+              colorScheme={'twitter'}
+              leftIcon={<TiSocialTwitter />}
+            >
+              <Center>
+                <Text>Sign in with Twitter</Text>
+              </Center>
+            </Button>
+            <Button
+              mt={4}
+              size="lg"
+              fontSize="md"
+              width="100%"
+              colorScheme={'gray'}
+              leftIcon={<GoMarkGithub />}
+            >
+              <Center>
+                <Text>Sign in with GitHub</Text>
+              </Center>
+            </Button>
+          </FormControl>
+        </ModalBody>
       </ModalContent>
     </Modal>
   );
