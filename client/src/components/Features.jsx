@@ -62,14 +62,14 @@ export default function Features() {
             icon={<Icon as={FcDonate} w={10} h={10} />}
             title={'Pay as you go'}
             text={
-              'Our platform starts out free with complete access. Start paying once you grow your following'
+              'Our platform starts out free with complete access. Start paying once you grow your following.'
             }
           />
           <Feature
             icon={<Icon as={FcInTransit} w={10} h={10} />}
             title={'Instant communication'}
             text={
-              'Response times are instant. Immediately check your new questions and answer them without wait'
+              'Response times are instant. Immediately check your new questions and answer them without wait.'
             }
           />
         </SimpleGrid>
