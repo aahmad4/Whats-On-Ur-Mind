@@ -75,6 +75,7 @@ export default function LoginModal({ isOpen, setLoginModalOpen }) {
 
   return (
     <Modal
+      scrollBehavior={'inside'}
       isOpen={isOpen}
       onClose={() => {
         setLoginModalOpen(false);
