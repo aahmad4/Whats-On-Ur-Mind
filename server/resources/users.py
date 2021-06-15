@@ -29,6 +29,9 @@ class UserRegister(Resource):
         if UserModel.find_by_email(data['email']):
             return {"message": "A user with that email already exists"}, 400
 
+        if not re.match(r"^[a-zA-Z0-9_.-]+$", data['username']):
+            return {"message": "Username can only contain a-z, A-Z, 0-9, and .-_"}, 400
+
         if not re.match(r"[^@]+@[^@]+\.[^@]+", data['email']):
             return {"message": "Invalid email format!"}, 400
 
