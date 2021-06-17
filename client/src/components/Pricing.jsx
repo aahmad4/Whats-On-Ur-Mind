@@ -32,8 +32,8 @@ function PriceWrapper({ children }) {
 
 export default function Pricing() {
   return (
-    <Box py={12}>
-      <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
+    <Box py={12} id="pricing">
+      <Stack spacing={4} as={Container} maxW={'5xl'} textAlign={'center'}>
         <Heading as="h1" fontSize="4xl">
           Pricing
         </Heading>

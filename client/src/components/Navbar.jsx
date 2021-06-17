@@ -114,8 +114,28 @@ export default function Navbar() {
               color="brand.500"
               display={{ base: 'none', md: 'inline-flex' }}
             >
-              <Button variant="ghost">Features</Button>
-              <Button variant="ghost">Pricing</Button>
+              <Button
+                variant="ghost"
+                onClick={() =>
+                  window.scrollTo({
+                    top: document.getElementById('features').offsetTop,
+                    behavior: 'smooth',
+                  })
+                }
+              >
+                Features
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() =>
+                  window.scrollTo({
+                    top: document.getElementById('pricing').offsetTop,
+                    behavior: 'smooth',
+                  })
+                }
+              >
+                Pricing
+              </Button>
               {!userDetails.get() ? (
                 <Button variant="ghost" onClick={() => setLoginModalOpen(true)}>
                   Sign in
@@ -182,10 +202,28 @@ export default function Navbar() {
                   onClick={mobileNav.onClose}
                 />
 
-                <Button w="full" variant="ghost">
+                <Button
+                  w="full"
+                  variant="ghost"
+                  onClick={() =>
+                    window.scrollTo({
+                      top: document.getElementById('features').offsetTop,
+                      behavior: 'smooth',
+                    })
+                  }
+                >
                   Features
                 </Button>
-                <Button w="full" variant="ghost">
+                <Button
+                  w="full"
+                  variant="ghost"
+                  onClick={() =>
+                    window.scrollTo({
+                      top: document.getElementById('pricing').offsetTop,
+                      behavior: 'smooth',
+                    })
+                  }
+                >
                   Pricing
                 </Button>
                 {!userDetails.get() ? (

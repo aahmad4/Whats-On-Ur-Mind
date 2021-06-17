@@ -34,7 +34,7 @@ function Feature({ title, text, icon }) {
 
 export default function Features() {
   return (
-    <Container maxW={'5xl'} py={24}>
+    <Container maxW={'5xl'} py={24} id="features">
       <Stack
         spacing={4}
         as={Container}
