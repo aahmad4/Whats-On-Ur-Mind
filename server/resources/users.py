@@ -44,6 +44,7 @@ class UserRegister(Resource):
             password=UserModel.generate_hash(data['password']),
             first_name=data['first_name'],
             last_name=data['last_name'],
+            is_subscribed=False,
         )
 
         try:
