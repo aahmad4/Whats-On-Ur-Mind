@@ -22,7 +22,11 @@ import store from '../state/store';
 import DividerWithText from './DividerWithText';
 import AlertMessage from './AlertMessage';
 
-export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
+export default function RegisterModal({
+  isOpen,
+  setRegisterModalOpen,
+  history,
+}) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -61,6 +65,8 @@ export default function RegisterModal({ isOpen, setRegisterModalOpen }) {
       setError(null);
 
       setRegisterModalOpen(false);
+
+      history.push('/dashboard');
 
       toast({
         title: 'Account created.',

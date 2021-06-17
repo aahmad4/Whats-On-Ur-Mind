@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Navbar from '../components/Navbar';
 import { useState as useHookState } from '@hookstate/core';
 import store from '../state/store';
 
@@ -11,5 +12,9 @@ export default function DashboardScreen({ history }) {
     }
   }, [history, userDetails]);
 
-  return <div>Dashboard Screen</div>;
+  return (
+    <>
+      <Navbar page="dashboard" history={history} />
+    </>
+  );
 }

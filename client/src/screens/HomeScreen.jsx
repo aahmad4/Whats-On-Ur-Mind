@@ -6,10 +6,10 @@ import Features from '../components/Features';
 import Pricing from '../components/Pricing';
 import Footer from '../components/Footer';
 
-export default function HomeScreen() {
+export default function HomeScreen({ history }) {
   return (
     <>
-      <Navbar />
+      <Navbar history={history} />
       <LandingPageCallToAction />
       <HowItWorks />
       <Features />

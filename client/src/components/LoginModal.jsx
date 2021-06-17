@@ -22,7 +22,7 @@ import store from '../state/store';
 import DividerWithText from './DividerWithText';
 import AlertMessage from './AlertMessage';
 
-export default function LoginModal({ isOpen, setLoginModalOpen }) {
+export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
   const [usernameEmail, setUsernameEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -57,6 +57,8 @@ export default function LoginModal({ isOpen, setLoginModalOpen }) {
       setError(null);
 
       setLoginModalOpen(false);
+
+      history.push('/dashboard');
 
       toast({
         title: 'Account authenticated.',
