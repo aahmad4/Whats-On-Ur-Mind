@@ -11,15 +11,17 @@ class UserModel(db.Model):
     username = db.Column(db.String(120), unique=True)
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
+    is_subscribed = db.Column(db.Boolean, default=False)
 
     questions = db.relationship('QuestionModel', lazy='dynamic')
 
-    def __init__(self, first_name, last_name, username, email, password):
+    def __init__(self, first_name, last_name, username, email, password, is_subscribed):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
         self.email = email
         self.password = password
+        self.is_subscribed = is_subscribed
 
     def json(self):
         return {
@@ -28,6 +30,7 @@ class UserModel(db.Model):
             'email': self.email,
             'first_name': self.first_name,
             'last_name': self.last_name,
+            'is_subscribed': self.is_subscribed,
             'questions': [question.json() for question in self.questions.all()]
         }
 

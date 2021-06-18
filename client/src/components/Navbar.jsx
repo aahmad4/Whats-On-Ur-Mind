@@ -17,11 +17,11 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { useState as useHookState } from '@hookstate/core';
-import store from '../state/store';
+import store from '../store';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 
-export default function Navbar() {
+export default function Navbar({ page, history }) {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
 
@@ -58,6 +58,8 @@ export default function Navbar() {
 
       userDetails.set(null);
       localStorage.removeItem('userDetails');
+
+      history.push('/');
 
       toast({
         title: 'Account logged out.',
@@ -114,8 +116,33 @@ export default function Navbar() {
               color="brand.500"
               display={{ base: 'none', md: 'inline-flex' }}
             >
-              <Button variant="ghost">Features</Button>
-              <Button variant="ghost">Pricing</Button>
+              {page !== 'dashboard' && (
+                <>
+                  {' '}
+                  <Button
+                    variant="ghost"
+                    onClick={() =>
+                      window.scrollTo({
+                        top: document.getElementById('features').offsetTop,
+                        behavior: 'smooth',
+                      })
+                    }
+                  >
+                    Features
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() =>
+                      window.scrollTo({
+                        top: document.getElementById('pricing').offsetTop,
+                        behavior: 'smooth',
+                      })
+                    }
+                  >
+                    Pricing
+                  </Button>
+                </>
+              )}
               {!userDetails.get() ? (
                 <Button variant="ghost" onClick={() => setLoginModalOpen(true)}>
                   Sign in
@@ -182,12 +209,34 @@ export default function Navbar() {
                   onClick={mobileNav.onClose}
                 />
 
-                <Button w="full" variant="ghost">
-                  Features
-                </Button>
-                <Button w="full" variant="ghost">
-                  Pricing
-                </Button>
+                {page !== 'dashboard' && (
+                  <>
+                    <Button
+                      w="full"
+                      variant="ghost"
+                      onClick={() =>
+                        window.scrollTo({
+                          top: document.getElementById('features').offsetTop,
+                          behavior: 'smooth',
+                        })
+                      }
+                    >
+                      Features
+                    </Button>
+                    <Button
+                      w="full"
+                      variant="ghost"
+                      onClick={() =>
+                        window.scrollTo({
+                          top: document.getElementById('pricing').offsetTop,
+                          behavior: 'smooth',
+                        })
+                      }
+                    >
+                      Pricing
+                    </Button>{' '}
+                  </>
+                )}
                 {!userDetails.get() ? (
                   <Button
                     w="full"
@@ -209,10 +258,12 @@ export default function Navbar() {
       <RegisterModal
         isOpen={registerModalOpen}
         setRegisterModalOpen={setRegisterModalOpen}
+        history={history}
       />
       <LoginModal
         isOpen={loginModalOpen}
         setLoginModalOpen={setLoginModalOpen}
+        history={history}
       />
     </React.Fragment>
   );

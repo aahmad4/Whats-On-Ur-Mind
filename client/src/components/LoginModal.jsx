@@ -18,11 +18,11 @@ import {
 import { TiSocialTwitter } from 'react-icons/ti';
 import { GoMarkGithub } from 'react-icons/go';
 import { useState as useHookState } from '@hookstate/core';
-import store from '../state/store';
+import store from '../store';
 import DividerWithText from './DividerWithText';
 import AlertMessage from './AlertMessage';
 
-export default function LoginModal({ isOpen, setLoginModalOpen }) {
+export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
   const [usernameEmail, setUsernameEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -57,6 +57,8 @@ export default function LoginModal({ isOpen, setLoginModalOpen }) {
       setError(null);
 
       setLoginModalOpen(false);
+
+      history.push('/dashboard');
 
       toast({
         title: 'Account authenticated.',

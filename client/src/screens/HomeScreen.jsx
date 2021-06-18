@@ -1,15 +1,15 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import LandingPageCallToAction from '../components/LandingPageCallToAction';
-import HowItWorks from '../components/HowItWorks';
-import Features from '../components/Features';
-import Pricing from '../components/Pricing';
-import Footer from '../components/Footer';
+import LandingPageCallToAction from '../components/HomeScreen/LandingPageCallToAction';
+import HowItWorks from '../components/HomeScreen/HowItWorks';
+import Features from '../components/HomeScreen/Features';
+import Pricing from '../components/HomeScreen/Pricing';
+import Footer from '../components/HomeScreen/Footer';
 
-export default function HomeScreen() {
+export default function HomeScreen({ history }) {
   return (
     <>
-      <Navbar />
+      <Navbar history={history} />
       <LandingPageCallToAction />
       <HowItWorks />
       <Features />
