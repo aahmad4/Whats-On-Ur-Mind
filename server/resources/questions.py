@@ -29,7 +29,7 @@ class QuestionList(Resource):
         data = self.parser.parse_args()
 
         question = QuestionModel(
-            question_text=data['question_text'], user_id=user_id)
+            question_text=data['question_text'], user_id=user_id, asked_on=datetime.now())
 
         question.save_to_db()
 
