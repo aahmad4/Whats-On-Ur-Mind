@@ -6,6 +6,7 @@ from flask_jwt_extended import (
     fresh_jwt_required,
     jwt_optional
 )
+from datetime import datetime
 from server.models.questions import QuestionModel
 from server.models.users import UserModel
 
@@ -36,8 +37,41 @@ class QuestionList(Resource):
 
 
 class QuestionOptions(Resource):
+    parser = reqparse.RequestParser()
+
+    parser.add_argument('answer_text', type=str)
+    parser.add_argument('update_text', type=str)
+
+    @jwt_required
     def put(self, user_id, question_id):
-        return {'message': 'Update this question'}
+        data = self.parser.parse_args()
+
+        current_user = UserModel.query.filter_by(id=get_jwt_identity()).first()
+
+        if current_user.id != user_id:
+            return {'message': 'You cannot edit a question you do not own!'}, 401
+
+        if not data['update_text']:
+            question = QuestionModel.find_by_id_and_user_id(
+                id=question_id, user_id=user_id)
+
+            question.answer_text = data['answer_text']
+            question.answered_on = datetime.now()
+
+            question.save_to_db()
+
+            return question.json()
+
+        if data['update_text']:
+            question = QuestionModel.find_by_id_and_user_id(
+                id=question_id, user_id=user_id)
+
+            question.answer_text = data['update_text']
+            question.answer_updated_on = datetime.now()
+
+            question.save_to_db()
+
+            return question.json()
 
     def delete(self, user_id, question_id):
         return {'message': f'Delete this question'}

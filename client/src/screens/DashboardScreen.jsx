@@ -17,6 +17,8 @@ import {
 } from '@chakra-ui/react';
 import { ExternalLinkIcon, LinkIcon } from '@chakra-ui/icons';
 import Navbar from '../components/Navbar';
+import QuestionCard from '../components/DashboardScreen/QuestionCard';
+import AnswerCard from '../components/DashboardScreen/AnswerCard';
 import { useState as useHookState } from '@hookstate/core';
 import store from '../store';
 
@@ -24,9 +26,7 @@ export default function DashboardScreen({ history }) {
   const { userDetails, questions } = useHookState(store);
 
   useEffect(() => {
-    if (!userDetails.get()) {
-      history.push('/');
-    } else {
+    if (userDetails.get()) {
       const fetchQuestions = async () => {
         const { data } = await axios.get(
           `/api/questions/${userDetails.get().id}`
@@ -36,13 +36,15 @@ export default function DashboardScreen({ history }) {
       };
 
       fetchQuestions();
+    } else {
+      history.push('/');
     }
   }, [history, userDetails, questions]);
 
   return (
     <>
       <Navbar page="dashboard" history={history} />
-      <Container maxW="container.sm">
+      <Container maxW="5xl">
         <Box p={8} borderRadius="lg" bg="blackAlpha.300" mt={8}>
           <Heading as="h1" fontSize="3xl">
             Welcome to your AMA dashboard! 👋
@@ -63,7 +65,7 @@ export default function DashboardScreen({ history }) {
                   }}
                   mr="3"
                 >
-                  Embed Widget <LinkIcon mx="4px" />
+                  Embed Widget <LinkIcon mx={2} />
                 </Button>
               </WrapItem>
               <WrapItem>
@@ -75,26 +77,46 @@ export default function DashboardScreen({ history }) {
                     bg: 'red.300',
                   }}
                 >
-                  Public Dashboard <ExternalLinkIcon mx="4px" />
+                  Public Dashboard <ExternalLinkIcon mx={2} />
                 </Button>
               </WrapItem>
             </Wrap>
           </Flex>
         </Box>
-        <Heading as="h2" mt="10%" fontSize="4xl">
+        <Heading as="h2" mt="5%" fontSize="4xl">
           Questions
         </Heading>
-        <Tabs variant="soft-rounded" colorScheme="red" mt="10%">
+        <Tabs variant="soft-rounded" colorScheme="red" mt="5%">
           <TabList>
             <Tab>Received</Tab>
             <Tab>Answered</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <p>one!</p>
+              {questions.get().map(question => {
+                return (
+                  !question.answer_text && (
+                    <QuestionCard
+                      key={question.id}
+                      question={question}
+                      userDetails={userDetails}
+                    />
+                  )
+                );
+              })}
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              {questions.get().map(question => {
+                return (
+                  question.answer_text && (
+                    <AnswerCard
+                      key={question.id}
+                      question={question}
+                      userDetails={userDetails}
+                    />
+                  )
+                );
+              })}
             </TabPanel>
           </TabPanels>
         </Tabs>

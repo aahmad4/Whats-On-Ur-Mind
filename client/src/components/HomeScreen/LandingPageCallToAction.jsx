@@ -49,7 +49,7 @@ export default function LandingPageCallToAction() {
             bg={'red.400'}
             _hover={{ bg: 'red.500' }}
           >
-            See demo <ExternalLinkIcon mx="4px" />
+            See demo <ExternalLinkIcon mx={2} />
           </Button>
           {userDetails.get() ? (
             <Button rounded={'full'} px={6} as={Link} to={'/dashboard'}>
