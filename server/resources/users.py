@@ -55,6 +55,7 @@ class UserRegister(Resource):
 
             return {
                 'message': f"User {data['username']} was created",
+                'id': user.id,
                 'username': user.username,
                 'email': user.email,
                 'access_token': access_token,
@@ -79,6 +80,7 @@ class UserLogin(Resource):
             refresh_token = create_refresh_token(user.id)
 
             return {
+                'id': user.id,
                 'message': f"User {data['username']} was logged in",
                 'username': user.username,
                 'email': user.email,

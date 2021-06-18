@@ -15,7 +15,7 @@ import {
   RiQuestionnaireFill,
   RiQuestionAnswerFill,
 } from 'react-icons/ri';
-import HowItWorksImage from '../assets/HowItWorksImage.svg';
+import HowItWorksImage from '../../assets/HowItWorksImage.svg';
 
 function Feature({ text, icon, iconBg }) {
   return (

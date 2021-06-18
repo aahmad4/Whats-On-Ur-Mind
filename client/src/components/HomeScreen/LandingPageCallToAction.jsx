@@ -12,7 +12,7 @@ import {
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import { useState as useHookState } from '@hookstate/core';
-import store from '../state/store';
+import store from '../../store';
 
 export default function LandingPageCallToAction() {
   const { userDetails } = useHookState(store);

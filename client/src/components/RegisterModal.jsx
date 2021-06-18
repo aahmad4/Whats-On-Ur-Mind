@@ -18,7 +18,7 @@ import {
 import { TiSocialTwitter } from 'react-icons/ti';
 import { GoMarkGithub } from 'react-icons/go';
 import { useState as useHookState } from '@hookstate/core';
-import store from '../state/store';
+import store from '../store';
 import DividerWithText from './DividerWithText';
 import AlertMessage from './AlertMessage';
 

@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { useState as useHookState } from '@hookstate/core';
-import store from '../state/store';
+import store from '../store';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 
