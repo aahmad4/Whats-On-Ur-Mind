@@ -14,9 +14,10 @@ class QuestionModel(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self, question_text, user_id):
+    def __init__(self, question_text, user_id, asked_on):
         self.question_text = question_text
         self.user_id = user_id
+        self.asked_on = asked_on
 
     def json(self):
         return {
