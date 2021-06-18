@@ -31,7 +31,7 @@ class UserModel(db.Model):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'is_subscribed': self.is_subscribed,
-            'questions': [question.json() for question in self.questions.all()]
+            'questions': [question.json() for question in self.questions.all()][::-1]
         }
 
     @classmethod
