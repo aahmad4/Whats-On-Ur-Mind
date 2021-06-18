@@ -89,7 +89,7 @@ export default function QuestionCard({ question, userDetails }) {
         <Flex mt={3}>
           <Box>
             <Text mt={2} color="gray.400" fontSize="sm">
-              Answered <TimeAgo datetime={question.answered_on} />
+              Sent <TimeAgo datetime={question.answered_on} />
             </Text>
           </Box>
           <Spacer />
