@@ -29,7 +29,7 @@ export default function QuestionCard({ question, userDetails }) {
         }
       );
 
-      const { data: updateData } = await axios.put(
+      await axios.put(
         `/api/questions/${userDetails.get().id}/${question.id}`,
         {
           answer_text: answerText,
@@ -44,7 +44,6 @@ export default function QuestionCard({ question, userDetails }) {
 
       setAnswerText('');
       setAnswerOpen(false);
-      console.log(updateData);
     } catch (error) {
       console.log(error);
     }

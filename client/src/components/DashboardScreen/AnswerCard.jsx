@@ -44,7 +44,6 @@ export default function QuestionCard({ question, userDetails }) {
 
       setUpdateText(updateData.answer_text);
       setUpdateOpen(false);
-      console.log(updateData);
     } catch (error) {
       console.log(error);
     }
