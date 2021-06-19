@@ -40,6 +40,16 @@ export default function AskUserScreen({ history, match }) {
 
   const handleSubmit = async () => {
     try {
+      if (!questionText.trim().length) {
+        return toast({
+          title: 'Could not send',
+          description: 'Please enter a question!',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+
       const { data } = await axios.post(
         `/api/questions/${match.params.name}`,
         {
