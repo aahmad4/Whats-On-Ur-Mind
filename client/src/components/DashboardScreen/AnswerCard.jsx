@@ -8,8 +8,9 @@ import {
   Spacer,
   Button,
   Textarea,
+  IconButton,
 } from '@chakra-ui/react';
-import { EditIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { EditIcon, ChevronUpIcon, DeleteIcon } from '@chakra-ui/icons';
 import TimeAgo from 'timeago-react';
 
 export default function QuestionCard({ question, userDetails }) {
@@ -62,6 +63,15 @@ export default function QuestionCard({ question, userDetails }) {
         >
           Answered
         </Badge>
+        <IconButton
+          size="sm"
+          float="right"
+          mb={2}
+          bg="red.100"
+          borderRadius="xl"
+          aria-label="Delete question"
+          icon={<DeleteIcon color="red.700" fontSize="small" />}
+        />
         <Text
           mt={1}
           display="block"
