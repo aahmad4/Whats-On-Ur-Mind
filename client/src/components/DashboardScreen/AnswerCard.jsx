@@ -30,7 +30,7 @@ export default function QuestionCard({ question, userDetails }) {
       );
 
       const { data: updateData } = await axios.put(
-        `/api/questions/${userDetails.get().id}/${question.id}`,
+        `/api/questions/${userDetails.get().username}/${question.id}`,
         {
           update_text: updateText,
         },

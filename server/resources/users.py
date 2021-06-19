@@ -50,8 +50,9 @@ class UserRegister(Resource):
         try:
             user.save_to_db()
 
-            access_token = create_access_token(identity=user.id, fresh=True)
-            refresh_token = create_refresh_token(user.id)
+            access_token = create_access_token(
+                identity=user.username, fresh=True)
+            refresh_token = create_refresh_token(user.username)
 
             return {
                 'message': f"User {data['username']} was created",
@@ -76,8 +77,9 @@ class UserLogin(Resource):
             user = UserModel.find_by_email(data['email'])
 
         if user and UserModel.verify_hash(data['password'], user.password):
-            access_token = create_access_token(identity=user.id, fresh=True)
-            refresh_token = create_refresh_token(user.id)
+            access_token = create_access_token(
+                identity=user.username, fresh=True)
+            refresh_token = create_refresh_token(user.username)
 
             return {
                 'id': user.id,

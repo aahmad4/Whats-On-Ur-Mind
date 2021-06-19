@@ -17,19 +17,24 @@ class QuestionList(Resource):
     parser.add_argument('question_text', type=str, required=True,
                         help="This field cannot be left blank!")
 
-    def get(self, user_id):
-        user = UserModel.find_by_id(user_id)
+    def get(self, username):
+        user = UserModel.find_by_username(username)
 
         if not user:
             return {'message': 'User Not Found'}, 404
 
         return user.json()
 
-    def post(self, user_id):
+    def post(self, username):
         data = self.parser.parse_args()
 
+        user = UserModel.find_by_username(username)
+
+        if not user:
+            return {'message': 'User Not Found'}, 404
+
         question = QuestionModel(
-            question_text=data['question_text'], user_id=user_id, asked_on=datetime.now())
+            question_text=data['question_text'], user_id=user.id, asked_on=datetime.now())
 
         question.save_to_db()
 
@@ -43,17 +48,19 @@ class QuestionOptions(Resource):
     parser.add_argument('update_text', type=str)
 
     @jwt_required
-    def put(self, user_id, question_id):
+    def put(self, username, question_id):
         data = self.parser.parse_args()
 
-        current_user = UserModel.query.filter_by(id=get_jwt_identity()).first()
+        user = UserModel.find_by_username(username)
+        current_user = UserModel.query.filter_by(
+            username=get_jwt_identity()).first()
 
-        if current_user.id != user_id:
+        if current_user.id != user.id:
             return {'message': 'You cannot edit a question you do not own!'}, 401
 
         if not data['update_text']:
             question = QuestionModel.find_by_id_and_user_id(
-                id=question_id, user_id=user_id)
+                id=question_id, user_id=user.id)
 
             question.answer_text = data['answer_text']
             question.answered_on = datetime.now()
@@ -64,7 +71,7 @@ class QuestionOptions(Resource):
 
         if data['update_text']:
             question = QuestionModel.find_by_id_and_user_id(
-                id=question_id, user_id=user_id)
+                id=question_id, user_id=user.id)
 
             question.answer_text = data['update_text']
             question.answer_updated_on = datetime.now()
@@ -73,5 +80,5 @@ class QuestionOptions(Resource):
 
             return question.json()
 
-    def delete(self, user_id, question_id):
+    def delete(self, username, question_id):
         return {'message': f'Delete this question'}

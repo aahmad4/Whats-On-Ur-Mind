@@ -29,7 +29,7 @@ export default function DashboardScreen({ history }) {
     if (userDetails.get()) {
       const fetchQuestions = async () => {
         const { data } = await axios.get(
-          `/api/questions/${userDetails.get().id}`
+          `/api/questions/${userDetails.get().username}`
         );
 
         questions.set(data.questions);

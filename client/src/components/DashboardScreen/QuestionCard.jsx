@@ -30,7 +30,7 @@ export default function QuestionCard({ question, userDetails }) {
       );
 
       await axios.put(
-        `/api/questions/${userDetails.get().id}/${question.id}`,
+        `/api/questions/${userDetails.get().username}/${question.id}`,
         {
           answer_text: answerText,
         },
