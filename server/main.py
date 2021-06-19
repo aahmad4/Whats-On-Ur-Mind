@@ -95,6 +95,6 @@ api.add_resource(UserRegister, '/api/users/register')
 api.add_resource(UserLogin, '/api/users/login')
 api.add_resource(UserLogout, '/api/users/logout')
 api.add_resource(TokenRefresh, '/api/users/refresh')
-api.add_resource(QuestionList, '/api/questions/<int:user_id>')
+api.add_resource(QuestionList, '/api/questions/<string:username>')
 api.add_resource(
-    QuestionOptions, '/api/questions/<int:user_id>/<int:question_id>')
+    QuestionOptions, '/api/questions/<string:username>/<int:question_id>')

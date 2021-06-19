@@ -48,6 +48,9 @@ export default function LandingPageCallToAction() {
             colorScheme={'red'}
             bg={'red.400'}
             _hover={{ bg: 'red.500' }}
+            as={Link}
+            to="/ask/@ali123"
+            target="_blank"
           >
             See demo <ExternalLinkIcon mx={2} />
           </Button>
