@@ -16,6 +16,7 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon, LinkIcon } from '@chakra-ui/icons';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import QuestionCard from '../components/DashboardScreen/QuestionCard';
 import AnswerCard from '../components/DashboardScreen/AnswerCard';
@@ -70,6 +71,9 @@ export default function DashboardScreen({ history }) {
               </WrapItem>
               <WrapItem>
                 <Button
+                  as={Link}
+                  to={`/ask/@${userDetails.get().username}`}
+                  target="_blank"
                   color={'white'}
                   bg={'red.400'}
                   href={'#'}
