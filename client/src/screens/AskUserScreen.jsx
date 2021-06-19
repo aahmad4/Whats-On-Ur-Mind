@@ -38,6 +38,34 @@ export default function AskUserScreen({ history, match }) {
     fetchQuestions();
   }, [history, match, toast]);
 
+  const handleSubmit = async () => {
+    try {
+      const { data } = await axios.post(
+        `/api/questions/${match.params.name}`,
+        {
+          question_text: questionText,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      toast({
+        title: 'Question sent!',
+        description: data.question_text,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+
+      setQuestionText('');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Container maxW="container.md">
       <Heading as="h1" fontSize="4xl" mt="10%">
@@ -58,6 +86,7 @@ export default function AskUserScreen({ history, match }) {
         onChange={e => setQuestionText(e.target.value)}
       />
       <Button
+        onClick={handleSubmit}
         mt={2}
         px={5}
         float="right"
