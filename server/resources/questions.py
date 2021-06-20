@@ -52,6 +52,7 @@ class QuestionOptions(Resource):
         data = self.parser.parse_args()
 
         user = UserModel.find_by_username(username)
+
         current_user = UserModel.query.filter_by(
             username=get_jwt_identity()).first()
 
@@ -80,5 +81,19 @@ class QuestionOptions(Resource):
 
             return question.json()
 
+    @jwt_required
     def delete(self, username, question_id):
-        return {'message': f'Delete this question'}
+        user = UserModel.find_by_username(username)
+
+        current_user = UserModel.query.filter_by(
+            username=get_jwt_identity()).first()
+
+        if current_user.id != user.id:
+            return {'message': 'You cannot delete a question you do not own!'}, 401
+
+        question = QuestionModel.find_by_id_and_user_id(
+            id=question_id, user_id=user.id)
+
+        question.delete_from_db()
+
+        return {'message': 'Successfully deleted that question!'}
