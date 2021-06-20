@@ -8,21 +8,28 @@ import {
   Button,
   useToast,
   Box,
+  Spinner,
+  Center,
 } from '@chakra-ui/react';
 import QuestionCard from '../components/AskUserScreen/QuestionCard';
 
 export default function AskUserScreen({ history, match }) {
   const [questions, setQuestions] = useState([]);
   const [questionText, setQuestionText] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const toast = useToast();
 
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
+        setLoading(true);
+
         const { data } = await axios.get(`/api/questions/${match.params.name}`);
 
         setQuestions(data.questions);
+
+        setLoading(false);
       } catch (error) {
         history.push('/');
         toast({
@@ -113,6 +120,18 @@ export default function AskUserScreen({ history, match }) {
         Answers
       </Heading>
       <Box mt="5%">
+        {loading && (
+          <Center>
+            <Spinner
+              thickness="2px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="red.400"
+              w={50}
+              h={50}
+            />
+          </Center>
+        )}
         {questions.map(question => {
           return (
             question.answer_text && (
