@@ -12,6 +12,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 import QuestionCard from '../components/AskUserScreen/QuestionCard';
+import Footer from '../components/AskUserScreen/Footer';
 
 export default function AskUserScreen({ history, match }) {
   const [questions, setQuestions] = useState([]);
@@ -140,6 +141,7 @@ export default function AskUserScreen({ history, match }) {
           );
         })}
       </Box>
+      <Footer />
     </Container>
   );
 }
