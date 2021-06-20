@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Container,
@@ -20,11 +20,14 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import QuestionCard from '../components/DashboardScreen/QuestionCard';
 import AnswerCard from '../components/DashboardScreen/AnswerCard';
+import ModalCodeContainer from '../components/DashboardScreen/ModalCodeContainer';
 import { useState as useHookState } from '@hookstate/core';
 import store from '../store';
 
 export default function DashboardScreen({ history }) {
   const { userDetails, questions } = useHookState(store);
+
+  const [codeModalOpen, setCodeModalOpen] = useState(false);
 
   useEffect(() => {
     if (userDetails.get()) {
@@ -58,6 +61,7 @@ export default function DashboardScreen({ history }) {
             <Wrap>
               <WrapItem>
                 <Button
+                  onClick={() => setCodeModalOpen(true)}
                   color={'white'}
                   bg={'red.400'}
                   href={'#'}
@@ -125,6 +129,10 @@ export default function DashboardScreen({ history }) {
           </TabPanels>
         </Tabs>
       </Container>
+      <ModalCodeContainer
+        codeModalOpen={codeModalOpen}
+        setCodeModalOpen={setCodeModalOpen}
+      />
     </>
   );
 }
