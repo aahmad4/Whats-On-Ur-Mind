@@ -132,6 +132,7 @@ export default function DashboardScreen({ history }) {
       <ModalCodeContainer
         codeModalOpen={codeModalOpen}
         setCodeModalOpen={setCodeModalOpen}
+        userDetails={userDetails}
       />
     </>
   );
