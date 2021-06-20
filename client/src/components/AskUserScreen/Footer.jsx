@@ -11,7 +11,7 @@ export default function Footer() {
       mt={20}
     >
       <Center>
-        <Text>
+        <Text mb="50px">
           © 2021 Powered by{' '}
           <Link color="red.500" href="/" target="_blank">
             Ask Me Anything <ExternalLinkIcon mx="2px" />
