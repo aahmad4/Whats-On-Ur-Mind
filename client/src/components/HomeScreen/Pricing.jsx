@@ -73,7 +73,7 @@ export default function Pricing() {
             <List spacing={3} textAlign="start" px={12}>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                Ten answers
+                Twenty answers
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
