@@ -14,7 +14,7 @@ export default function Footer() {
         <Text mb="50px">
           © 2021 Powered by{' '}
           <Link color="red.500" href="/" target="_blank">
-            Ask Me Anything <ExternalLinkIcon mx="2px" />
+            Whats On Ur Mind <ExternalLinkIcon mx="2px" />
           </Link>
         </Text>
       </Center>
