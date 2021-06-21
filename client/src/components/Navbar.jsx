@@ -87,7 +87,7 @@ export default function Navbar({ page, history }) {
             <chakra.a
               as={Link}
               to="/"
-              title="Ask Me Anything Home Page"
+              title="Whats On Ur Mind Home Page"
               display="flex"
               alignItems="center"
             >
@@ -95,9 +95,9 @@ export default function Navbar({ page, history }) {
                 src="https://hotemoji.com/images/dl/1/question-mark-emoji-by-twitter.png"
                 width="30px"
                 height="auto"
-                alt="Ask Me Anything Question Mark Logo"
+                alt="Whats On Ur Mind Question Mark Logo"
               />
-              <VisuallyHidden>Ask Me Anything</VisuallyHidden>
+              <VisuallyHidden>Whats On Ur Mind</VisuallyHidden>
             </chakra.a>
             <chakra.h1
               as={Link}
@@ -106,7 +106,7 @@ export default function Navbar({ page, history }) {
               fontWeight="medium"
               ml="2"
             >
-              Ask Me Anything
+              Whats On Ur Mind?
             </chakra.h1>
           </Flex>
           <HStack display="flex" alignItems="center" spacing={1}>

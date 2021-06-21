@@ -35,7 +35,7 @@ export default function ModalCodeContainer({
           </Text>
           <CopyBlock
             text={`<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.1/iframeResizer.min.js"></script>
-<iframe src="https://askmesomethingapp.herokuapp.com/ask/@${
+<iframe src="https://whatsonurmind.herokuapp.com/ask/@${
               userDetails.get().username
             }" id="ama-dashboard" frameborder="0" scrolling="no" width="100%"></iframe>
 <script type="text/javascript">iFrameResize({log: false, checkOrigin: false}, "#ama-dashboard");</script>`}
