@@ -91,12 +91,6 @@ export default function Navbar({ page, history }) {
               display="flex"
               alignItems="center"
             >
-              <img
-                src="https://hotemoji.com/images/dl/1/question-mark-emoji-by-twitter.png"
-                width="30px"
-                height="auto"
-                alt="Whats On Ur Mind Question Mark Logo"
-              />
               <VisuallyHidden>Whats On Ur Mind</VisuallyHidden>
             </chakra.a>
             <chakra.h1
