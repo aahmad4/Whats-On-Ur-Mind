@@ -2,16 +2,17 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
-    jwt_refresh_token_required,
     get_jwt_identity,
-    get_raw_jwt,
     jwt_required
 )
-import stripe
+
 from server.models.users import UserModel
 
+import stripe
 import os
 from dotenv import load_dotenv
+
+load_dotenv()
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
@@ -48,12 +49,13 @@ class CreateSubscription(Resource):
     @jwt_required
     def post(self):
         data = self.parser.parse_args()
-
         current_user = UserModel.query.filter_by(
-            username=get_jwt_identity()).first()
-
+            username=get_jwt_identity()
+        ).first()
         access_token = create_access_token(
-            identity=current_user.username, fresh=True)
+            identity=current_user.username,
+            fresh=True
+        )
         refresh_token = create_refresh_token(current_user.username)
 
         if current_user.is_subscribed:
@@ -72,7 +74,6 @@ class CreateSubscription(Resource):
         if session['payment_status'] == 'paid':
             current_user.is_subscribed = True
             current_user.subscription_id = session['subscription']
-
             current_user.save_to_db()
 
             return {
@@ -90,10 +91,12 @@ class CancelSubscription(Resource):
     @jwt_required
     def put(self):
         current_user = UserModel.query.filter_by(
-            username=get_jwt_identity()).first()
-
+            username=get_jwt_identity()
+        ).first()
         access_token = create_access_token(
-            identity=current_user.username, fresh=True)
+            identity=current_user.username,
+            fresh=True
+        )
         refresh_token = create_refresh_token(current_user.username)
 
         if not current_user.is_subscribed:
@@ -103,7 +106,6 @@ class CancelSubscription(Resource):
 
         current_user.is_subscribed = False
         current_user.subscription_id = None
-
         current_user.save_to_db()
 
         return {
