@@ -120,7 +120,7 @@ export default function Pricing() {
       );
 
       const { data: paymentData } = await axios.post(
-        '/api/capture-payment',
+        '/api/create-subscription',
         {
           sessionId: sessionId,
         },

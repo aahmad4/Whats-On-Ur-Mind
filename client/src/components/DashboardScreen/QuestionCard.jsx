@@ -49,7 +49,13 @@ export default function QuestionCard({ question, userDetails }) {
       setAnswerText('');
       setAnswerOpen(false);
     } catch (error) {
-      console.log(error);
+      toast({
+        title: 'Error',
+        description: error.response.data.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
@@ -85,7 +91,13 @@ export default function QuestionCard({ question, userDetails }) {
         });
       }
     } catch (error) {
-      console.log(error);
+      toast({
+        title: 'Error',
+        description: error.response.data.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 

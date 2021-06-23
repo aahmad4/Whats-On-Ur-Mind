@@ -7,21 +7,23 @@ from flask_jwt_extended import (
     get_raw_jwt,
     jwt_required
 )
-import re
+
 from server.models.users import UserModel
 from server.blacklist import BLACKLIST
 
-_user_parser = reqparse.RequestParser()
-_user_parser.add_argument('first_name', type=str)
-_user_parser.add_argument('last_name', type=str)
-_user_parser.add_argument('username', type=str)
-_user_parser.add_argument('email', type=str)
-_user_parser.add_argument('password', type=str)
+import re
 
 
 class UserRegister(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('first_name', type=str)
+    parser.add_argument('last_name', type=str)
+    parser.add_argument('username', type=str)
+    parser.add_argument('email', type=str)
+    parser.add_argument('password', type=str)
+
     def post(self):
-        data = _user_parser.parse_args()
+        data = self.parser.parse_args()
 
         if UserModel.find_by_username(data['username']):
             return {"message": "A user with that username already exists"}, 400
@@ -42,16 +44,15 @@ class UserRegister(Resource):
             username=data['username'],
             email=data['email'],
             password=UserModel.generate_hash(data['password']),
-            first_name=data['first_name'],
-            last_name=data['last_name'],
-            is_subscribed=False,
         )
 
         try:
             user.save_to_db()
 
             access_token = create_access_token(
-                identity=user.username, fresh=True)
+                identity=user.username,
+                fresh=True
+            )
             refresh_token = create_refresh_token(user.username)
 
             return {
@@ -69,9 +70,13 @@ class UserRegister(Resource):
 
 
 class UserLogin(Resource):
-    def post(self):
-        data = _user_parser.parse_args()
+    parser = reqparse.RequestParser()
+    parser.add_argument('username', type=str)
+    parser.add_argument('email', type=str)
+    parser.add_argument('password', type=str)
 
+    def post(self):
+        data = self.parser.parse_args()
         user = UserModel.find_by_username(data['username'])
 
         if not user:
@@ -79,7 +84,9 @@ class UserLogin(Resource):
 
         if user and UserModel.verify_hash(data['password'], user.password):
             access_token = create_access_token(
-                identity=user.username, fresh=True)
+                identity=user.username,
+                fresh=True
+            )
             refresh_token = create_refresh_token(user.username)
 
             return {
@@ -103,7 +110,7 @@ class UserLogout(Resource):
         return {"message": "Successfully logged out"}, 200
 
 
-class TokenRefresh(Resource):
+class UserTokenRefresh(Resource):
     @jwt_refresh_token_required
     def post(self):
         current_user = get_jwt_identity()

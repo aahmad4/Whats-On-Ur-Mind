@@ -4,9 +4,9 @@ from flask_jwt_extended import JWTManager
 
 from server.db import db
 from server.blacklist import BLACKLIST
-from server.resources.users import UserRegister, UserLogin, UserLogout, TokenRefresh
+from server.resources.users import UserRegister, UserLogin, UserLogout, UserTokenRefresh
 from server.resources.questions import QuestionList, QuestionOptions
-from server.resources.payments import CheckoutSession, CapturePayment, CancelSubscription
+from server.resources.payments import CreateCheckoutSession, CreateSubscription, CancelSubscription
 
 import os
 from dotenv import load_dotenv
@@ -95,10 +95,11 @@ def not_found(e):
 api.add_resource(UserRegister, '/api/users/register')
 api.add_resource(UserLogin, '/api/users/login')
 api.add_resource(UserLogout, '/api/users/logout')
-api.add_resource(TokenRefresh, '/api/users/refresh')
+api.add_resource(UserTokenRefresh, '/api/users/refresh')
+
 api.add_resource(QuestionList, '/api/questions/<string:username>')
-api.add_resource(
-    QuestionOptions, '/api/questions/<string:username>/<int:question_id>')
-api.add_resource(CheckoutSession, '/api/create-checkout-session')
-api.add_resource(CapturePayment, '/api/capture-payment')
+api.add_resource(QuestionOptions, '/api/questions/<string:username>/<int:question_id>')
+
+api.add_resource(CreateCheckoutSession, '/api/create-checkout-session')
+api.add_resource(CreateSubscription, '/api/create-subscription')
 api.add_resource(CancelSubscription, '/api/cancel-subscription')

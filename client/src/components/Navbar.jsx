@@ -69,7 +69,13 @@ export default function Navbar({ page, history }) {
         isClosable: true,
       });
     } catch (error) {
-      console.log(error);
+      toast({
+        title: 'Error',
+        description: 'Something went wrong',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
