@@ -23,7 +23,7 @@ import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(
   process.env.REACT_APP_STRIPE_PUBLIC_KEY ||
-    'pk_test_51J5J3CBeiRoYwiWq7ZJq3DMuPaXVxpthFikMvYprJd4HwHJ3DfvasHIRpztZ2uP9ZNkpsGymzqryoy9CGOUoPwYA00mKuC3pxI'
+    'pk_live_51J5J3CBeiRoYwiWquyUr3n3YKXUPCgukHiEtbffmfQLWG8X1QpE6rcIk3po6uCk9zE2r1mgfafC9c2b36YMuw0sg00TFUFJgnH'
 );
 
 function PriceWrapper({ children }) {
