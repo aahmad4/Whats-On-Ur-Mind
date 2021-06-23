@@ -21,7 +21,10 @@ import { useState as useHookState } from '@hookstate/core';
 import store from '../../store';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(
+  process.env.REACT_APP_STRIPE_PUBLIC_KEY ||
+    'pk_test_51J5J3CBeiRoYwiWq7ZJq3DMuPaXVxpthFikMvYprJd4HwHJ3DfvasHIRpztZ2uP9ZNkpsGymzqryoy9CGOUoPwYA00mKuC3pxI'
+);
 
 function PriceWrapper({ children }) {
   return (
