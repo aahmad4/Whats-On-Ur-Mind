@@ -84,3 +84,34 @@ class CapturePayment(Resource):
                 'access_token': access_token,
                 'refresh_token': refresh_token
             }
+
+
+class CancelSubscription(Resource):
+    @jwt_required
+    def put(self):
+        current_user = UserModel.query.filter_by(
+            username=get_jwt_identity()).first()
+
+        access_token = create_access_token(
+            identity=current_user.username, fresh=True)
+        refresh_token = create_refresh_token(current_user.username)
+
+        if not current_user.is_subscribed:
+            return {"message": "You're not even subscribed!"}
+
+        stripe.Subscription.delete(current_user.subscription_id)
+
+        current_user.is_subscribed = False
+        current_user.subscription_id = None
+
+        current_user.save_to_db()
+
+        return {
+            'message': 'Successfully cancelled subscription',
+            'id': current_user.id,
+            'username': current_user.username,
+            'email': current_user.email,
+            'is_subscribed': current_user.is_subscribed,
+            'access_token': access_token,
+            'refresh_token': refresh_token
+        }

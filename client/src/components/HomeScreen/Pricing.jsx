@@ -63,7 +63,42 @@ export default function Pricing() {
     });
   };
 
-  const cancelSubscription = async () => {};
+  const cancelSubscription = async () => {
+    if (window.confirm('Are you sure?')) {
+      const { data } = await axios.post(
+        '/api/users/refresh',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userDetails.get().refresh_token}`,
+          },
+        }
+      );
+
+      const { data: cancelData } = await axios.put(
+        '/api/cancel-subscription',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        }
+      );
+
+      userDetails.set(cancelData);
+      localStorage.setItem('userDetails', JSON.stringify(cancelData));
+
+      toast({
+        title: 'Subscription status',
+        description: cancelData.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
