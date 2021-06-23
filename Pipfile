@@ -13,6 +13,7 @@ autopep8 = "*"
 flask-jwt-extended = "==3.25.0"
 python-dotenv = "*"
 gunicorn = "*"
+stripe = "*"
 
 [dev-packages]
 
