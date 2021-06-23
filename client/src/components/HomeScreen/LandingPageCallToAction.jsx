@@ -49,7 +49,7 @@ export default function LandingPageCallToAction() {
             bg={'red.400'}
             _hover={{ bg: 'red.500' }}
             as={Link}
-            to="/ask/@ali123"
+            to="/ask/@princeali123"
             target="_blank"
           >
             See demo <ExternalLinkIcon mx={2} />
