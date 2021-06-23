@@ -25,8 +25,8 @@ class CheckoutSession(Resource):
 
         try:
             checkout_session = stripe.checkout.Session.create(
-                success_url='/?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url='/',
+                success_url='https://whatsonurmind.herokuapp.com/?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url='https://whatsonurmind.herokuapp.com/',
                 payment_method_types=['card'],
                 mode='subscription',
                 line_items=[{
