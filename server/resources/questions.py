@@ -60,6 +60,9 @@ class QuestionOptions(Resource):
             return {'message': 'You cannot edit a question you do not own!'}, 401
 
         if not data['update_text']:
+            if not user.is_subscribed and len([question for question in user.questions.all() if question.answered_on != None]) >= 5:
+                return {'message': 'Surpassed answer limit. Subscribe to continue answering questions'}, 401
+
             question = QuestionModel.find_by_id_and_user_id(
                 id=question_id,
                 user_id=user.id

@@ -80,7 +80,13 @@ export default function AskUserScreen({ history, match }) {
 
       setQuestionText('');
     } catch (error) {
-      console.log(error);
+      toast({
+        title: 'Error',
+        description: error.response.data.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
