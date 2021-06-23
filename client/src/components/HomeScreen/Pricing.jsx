@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import {
   Box,
   Stack,
@@ -12,8 +13,15 @@ import {
   ListIcon,
   Button,
   Container,
+  useToast,
 } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { useState as useHookState } from '@hookstate/core';
+import store from '../../store';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 function PriceWrapper({ children }) {
   return (
@@ -31,6 +39,114 @@ function PriceWrapper({ children }) {
 }
 
 export default function Pricing() {
+  const { userDetails } = useHookState(store);
+
+  const toast = useToast();
+
+  const createSubscription = async () => {
+    const stripe = await stripePromise;
+
+    const { data } = await axios.post(
+      '/api/create-checkout-session',
+      {
+        priceId: 'price_1J5J95BeiRoYwiWqWu9qxm4Y',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    await stripe.redirectToCheckout({
+      sessionId: data.sessionId,
+    });
+  };
+
+  const cancelSubscription = async () => {
+    if (window.confirm('Are you sure?')) {
+      const { data } = await axios.post(
+        '/api/users/refresh',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userDetails.get().refresh_token}`,
+          },
+        }
+      );
+
+      const { data: cancelData } = await axios.put(
+        '/api/cancel-subscription',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        }
+      );
+
+      userDetails.set(cancelData);
+      localStorage.setItem('userDetails', JSON.stringify(cancelData));
+
+      toast({
+        title: 'Subscription status',
+        description: cancelData.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+
+    const capturePayment = async () => {
+      const { data } = await axios.post(
+        '/api/users/refresh',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userDetails.get().refresh_token}`,
+          },
+        }
+      );
+
+      const { data: paymentData } = await axios.post(
+        '/api/capture-payment',
+        {
+          sessionId: sessionId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        }
+      );
+
+      userDetails.set(paymentData);
+      localStorage.setItem('userDetails', JSON.stringify(paymentData));
+
+      toast({
+        title: 'Subscription status',
+        description: paymentData.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    };
+
+    if (sessionId) {
+      capturePayment();
+    }
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <Box py={12} id="pricing">
       <Stack spacing={4} as={Container} maxW={'5xl'} textAlign={'center'}>
@@ -73,7 +189,7 @@ export default function Pricing() {
             <List spacing={3} textAlign="start" px={12}>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                Twenty answers
+                Five answers
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
@@ -85,9 +201,31 @@ export default function Pricing() {
               </ListItem>
             </List>
             <Box w="80%" pt={7}>
-              <Button w="full" colorScheme="red" variant="outline">
-                Get started
-              </Button>
+              {userDetails.get() ? (
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="outline"
+                  as={Link}
+                  to="/dashboard"
+                >
+                  Get started
+                </Button>
+              ) : (
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="outline"
+                  onClick={() =>
+                    window.scrollTo({
+                      top: 0,
+                      behavior: 'smooth',
+                    })
+                  }
+                >
+                  Get started
+                </Button>
+              )}
             </Box>
           </VStack>
         </PriceWrapper>
@@ -102,7 +240,7 @@ export default function Pricing() {
                 $
               </Text>
               <Text fontSize="5xl" fontWeight="900">
-                10
+                1
               </Text>
               <Text fontSize="3xl" color="gray.500">
                 /month
@@ -129,9 +267,42 @@ export default function Pricing() {
               </ListItem>
             </List>
             <Box w="80%" pt={7}>
-              <Button w="full" colorScheme="red" variant="solid">
-                Subscribe
-              </Button>
+              {userDetails.get() && !userDetails.get().is_subscribed ? (
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="solid"
+                  onClick={createSubscription}
+                >
+                  Subscribe
+                </Button>
+              ) : userDetails.get() && userDetails.get().is_subscribed ? (
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="solid"
+                  onClick={cancelSubscription}
+                >
+                  Cancel
+                </Button>
+              ) : (
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="solid"
+                  onClick={() =>
+                    toast({
+                      title: 'Error',
+                      description: 'Please log in first or sign up!',
+                      status: 'error',
+                      duration: 9000,
+                      isClosable: true,
+                    })
+                  }
+                >
+                  Subscribe
+                </Button>
+              )}
             </Box>
           </VStack>
         </PriceWrapper>

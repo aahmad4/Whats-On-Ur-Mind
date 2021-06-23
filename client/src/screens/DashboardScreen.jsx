@@ -76,7 +76,11 @@ export default function DashboardScreen({ history }) {
               <WrapItem>
                 <Button
                   as={Link}
-                  to={`/ask/@${userDetails.get().username}`}
+                  to={
+                    userDetails.get()
+                      ? `/ask/@${userDetails.get().username}`
+                      : '/'
+                  }
                   target="_blank"
                   color={'white'}
                   bg={'red.400'}
