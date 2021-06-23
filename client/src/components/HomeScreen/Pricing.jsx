@@ -18,6 +18,9 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useState as useHookState } from '@hookstate/core';
 import store from '../../store';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 function PriceWrapper({ children }) {
   return (
