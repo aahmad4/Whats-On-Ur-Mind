@@ -12,8 +12,12 @@ import {
   ListIcon,
   Button,
   Container,
+  useToast,
 } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { useState as useHookState } from '@hookstate/core';
+import store from '../../store';
 
 function PriceWrapper({ children }) {
   return (
@@ -31,6 +35,10 @@ function PriceWrapper({ children }) {
 }
 
 export default function Pricing() {
+  const { userDetails } = useHookState(store);
+
+  const toast = useToast();
+
   return (
     <Box py={12} id="pricing">
       <Stack spacing={4} as={Container} maxW={'5xl'} textAlign={'center'}>
@@ -73,7 +81,7 @@ export default function Pricing() {
             <List spacing={3} textAlign="start" px={12}>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                Twenty answers
+                Five answers
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
@@ -85,9 +93,31 @@ export default function Pricing() {
               </ListItem>
             </List>
             <Box w="80%" pt={7}>
-              <Button w="full" colorScheme="red" variant="outline">
-                Get started
-              </Button>
+              {userDetails.get() ? (
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="outline"
+                  as={Link}
+                  to="/dashboard"
+                >
+                  Get started
+                </Button>
+              ) : (
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="outline"
+                  onClick={() =>
+                    window.scrollTo({
+                      top: 0,
+                      behavior: 'smooth',
+                    })
+                  }
+                >
+                  Get started
+                </Button>
+              )}
             </Box>
           </VStack>
         </PriceWrapper>
@@ -102,7 +132,7 @@ export default function Pricing() {
                 $
               </Text>
               <Text fontSize="5xl" fontWeight="900">
-                10
+                1
               </Text>
               <Text fontSize="3xl" color="gray.500">
                 /month
@@ -129,9 +159,32 @@ export default function Pricing() {
               </ListItem>
             </List>
             <Box w="80%" pt={7}>
-              <Button w="full" colorScheme="red" variant="solid">
-                Subscribe
-              </Button>
+              {userDetails.get() && !userDetails.get().is_subscribed ? (
+                <Button w="full" colorScheme="red" variant="solid">
+                  Subscribe
+                </Button>
+              ) : userDetails.get() && userDetails.get().is_subscribed ? (
+                <Button w="full" colorScheme="red" variant="solid">
+                  Cancel
+                </Button>
+              ) : (
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="solid"
+                  onClick={() =>
+                    toast({
+                      title: 'Error',
+                      description: 'Please log in first or sign up!',
+                      status: 'error',
+                      duration: 9000,
+                      isClosable: true,
+                    })
+                  }
+                >
+                  Subscribe
+                </Button>
+              )}
             </Box>
           </VStack>
         </PriceWrapper>
