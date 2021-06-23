@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 
-class CheckoutSession(Resource):
+class CreateCheckoutSession(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('priceId', type=str)
 
@@ -41,7 +41,7 @@ class CheckoutSession(Resource):
             return {"message": str(e)}, 400
 
 
-class CapturePayment(Resource):
+class CreateSubscription(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('sessionId', type=str)
 

@@ -103,7 +103,7 @@ class UserLogout(Resource):
         return {"message": "Successfully logged out"}, 200
 
 
-class TokenRefresh(Resource):
+class UserTokenRefresh(Resource):
     @jwt_refresh_token_required
     def post(self):
         current_user = get_jwt_identity()
