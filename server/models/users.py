@@ -12,6 +12,7 @@ class UserModel(db.Model):
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
     is_subscribed = db.Column(db.Boolean, default=False)
+    subscription_id = db.Column(db.String(), default=None)
 
     questions = db.relationship('QuestionModel', lazy='dynamic')
 

@@ -59,6 +59,7 @@ class UserRegister(Resource):
                 'id': user.id,
                 'username': user.username,
                 'email': user.email,
+                'is_subscribed': user.is_subscribed,
                 'access_token': access_token,
                 'refresh_token': refresh_token
             }, 201
@@ -86,6 +87,7 @@ class UserLogin(Resource):
                 'message': f"User {data['username']} was logged in",
                 'username': user.username,
                 'email': user.email,
+                'is_subscribed': user.is_subscribed,
                 'access_token': access_token,
                 'refresh_token': refresh_token
             }, 200

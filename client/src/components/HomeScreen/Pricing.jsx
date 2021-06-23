@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import {
   Box,
   Stack,
@@ -20,7 +21,10 @@ import { useState as useHookState } from '@hookstate/core';
 import store from '../../store';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(
+  process.env.REACT_APP_STRIPE_PUBLIC_KEY ||
+    'pk_test_51J5J3CBeiRoYwiWq7ZJq3DMuPaXVxpthFikMvYprJd4HwHJ3DfvasHIRpztZ2uP9ZNkpsGymzqryoy9CGOUoPwYA00mKuC3pxI'
+);
 
 function PriceWrapper({ children }) {
   return (
@@ -41,6 +45,75 @@ export default function Pricing() {
   const { userDetails } = useHookState(store);
 
   const toast = useToast();
+
+  const createSubscription = async () => {
+    const stripe = await stripePromise;
+
+    const { data } = await axios.post(
+      '/api/create-checkout-session',
+      {
+        priceId: 'price_1J5J95BeiRoYwiWqWu9qxm4Y',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    await stripe.redirectToCheckout({
+      sessionId: data.sessionId,
+    });
+  };
+
+  const cancelSubscription = async () => {};
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+
+    const capturePayment = async () => {
+      const { data } = await axios.post(
+        '/api/users/refresh',
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${userDetails.get().refresh_token}`,
+          },
+        }
+      );
+
+      const { data: paymentData } = await axios.post(
+        '/api/capture-payment',
+        {
+          sessionId: sessionId,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${data.access_token}`,
+          },
+        }
+      );
+
+      userDetails.set(paymentData);
+      localStorage.setItem('userDetails', JSON.stringify(paymentData));
+
+      toast({
+        title: 'Subscription status',
+        description: paymentData.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    };
+
+    if (sessionId) {
+      capturePayment();
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Box py={12} id="pricing">
@@ -163,11 +236,21 @@ export default function Pricing() {
             </List>
             <Box w="80%" pt={7}>
               {userDetails.get() && !userDetails.get().is_subscribed ? (
-                <Button w="full" colorScheme="red" variant="solid">
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="solid"
+                  onClick={createSubscription}
+                >
                   Subscribe
                 </Button>
               ) : userDetails.get() && userDetails.get().is_subscribed ? (
-                <Button w="full" colorScheme="red" variant="solid">
+                <Button
+                  w="full"
+                  colorScheme="red"
+                  variant="solid"
+                  onClick={cancelSubscription}
+                >
                   Cancel
                 </Button>
               ) : (
