@@ -28,6 +28,7 @@ export default function DashboardScreen({ history }) {
   const { userDetails } = useHookState(store);
 
   const [questions, setQuestions] = useState([]);
+  const [rerender, setRerender] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
 
   useEffect(() => {
@@ -56,13 +57,12 @@ export default function DashboardScreen({ history }) {
 
         setQuestions(questionData.questions);
       };
-
       fetchQuestions();
     } else {
       history.push('/');
     }
     // eslint-disable-next-line
-  }, [history]);
+  }, [history, rerender]);
 
   return (
     <>
@@ -131,6 +131,8 @@ export default function DashboardScreen({ history }) {
                       key={question.id}
                       question={question}
                       userDetails={userDetails}
+                      rerender={rerender}
+                      setRerender={setRerender}
                     />
                   )
                 );
@@ -144,6 +146,8 @@ export default function DashboardScreen({ history }) {
                       key={question.id}
                       question={question}
                       userDetails={userDetails}
+                      rerender={rerender}
+                      setRerender={setRerender}
                     />
                   )
                 );

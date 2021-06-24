@@ -14,7 +14,12 @@ import {
 import { EditIcon, ChevronUpIcon, DeleteIcon } from '@chakra-ui/icons';
 import TimeAgo from 'timeago-react';
 
-export default function QuestionCard({ question, userDetails }) {
+export default function QuestionCard({
+  question,
+  userDetails,
+  rerender,
+  setRerender,
+}) {
   const [answerOpen, setAnswerOpen] = useState(false);
   const [answerText, setAnswerText] = useState('');
 
@@ -48,6 +53,8 @@ export default function QuestionCard({ question, userDetails }) {
 
       setAnswerText('');
       setAnswerOpen(false);
+
+      setRerender(!rerender);
     } catch (error) {
       toast({
         title: 'Error',
@@ -89,6 +96,8 @@ export default function QuestionCard({ question, userDetails }) {
           duration: 9000,
           isClosable: true,
         });
+
+        setRerender(!rerender);
       }
     } catch (error) {
       toast({
