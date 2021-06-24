@@ -139,7 +139,7 @@ export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
               onClick={() =>
                 toast({
                   title: 'Under construction!',
-                  description: 'Currently working to implement this',
+                  description: 'Currently working on implementing this',
                   status: 'warning',
                   duration: 9000,
                   isClosable: true,
@@ -160,7 +160,7 @@ export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
               onClick={() =>
                 toast({
                   title: 'Under construction!',
-                  description: 'Currently working to implement this',
+                  description: 'Currently working on implementing this',
                   status: 'warning',
                   duration: 9000,
                   isClosable: true,
