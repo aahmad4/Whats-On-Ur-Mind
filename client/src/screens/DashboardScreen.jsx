@@ -14,6 +14,8 @@ import {
   Tab,
   TabPanels,
   TabPanel,
+  Spinner,
+  Center,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon, LinkIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
@@ -28,12 +30,15 @@ export default function DashboardScreen({ history }) {
   const { userDetails } = useHookState(store);
 
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [rerender, setRerender] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
 
   useEffect(() => {
     if (userDetails.get()) {
       const fetchQuestions = async () => {
+        setLoading(true);
+
         const { data } = await axios.post(
           '/api/users/refresh',
           {},
@@ -56,6 +61,7 @@ export default function DashboardScreen({ history }) {
         );
 
         setQuestions(questionData.questions);
+        setLoading(false);
       };
       fetchQuestions();
     } else {
@@ -124,6 +130,18 @@ export default function DashboardScreen({ history }) {
           </TabList>
           <TabPanels>
             <TabPanel>
+              {loading && (
+                <Center>
+                  <Spinner
+                    thickness="2px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="red.400"
+                    w={50}
+                    h={50}
+                  />
+                </Center>
+              )}
               {questions.map(question => {
                 return (
                   !question.answer_text && (
@@ -139,6 +157,18 @@ export default function DashboardScreen({ history }) {
               })}
             </TabPanel>
             <TabPanel>
+              {loading && (
+                <Center>
+                  <Spinner
+                    thickness="2px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="red.400"
+                    w={50}
+                    h={50}
+                  />
+                </Center>
+              )}
               {questions.map(question => {
                 return (
                   question.answer_text && (

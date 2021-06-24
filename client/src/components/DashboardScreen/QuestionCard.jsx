@@ -10,6 +10,8 @@ import {
   Textarea,
   IconButton,
   useToast,
+  Spinner,
+  Center,
 } from '@chakra-ui/react';
 import { EditIcon, ChevronUpIcon, DeleteIcon } from '@chakra-ui/icons';
 import TimeAgo from 'timeago-react';
@@ -22,11 +24,14 @@ export default function QuestionCard({
 }) {
   const [answerOpen, setAnswerOpen] = useState(false);
   const [answerText, setAnswerText] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const toast = useToast();
 
   const answerQuestion = async () => {
     try {
+      setLoading(true);
+
       const { data } = await axios.post(
         '/api/users/refresh',
         {},
@@ -53,6 +58,7 @@ export default function QuestionCard({
 
       setAnswerText('');
       setAnswerOpen(false);
+      setLoading(false);
 
       setRerender(!rerender);
     } catch (error) {
@@ -63,12 +69,16 @@ export default function QuestionCard({
         duration: 9000,
         isClosable: true,
       });
+
+      setLoading(false);
     }
   };
 
   const deleteQuestion = async () => {
     try {
       if (window.confirm('Are you sure?')) {
+        setLoading(true);
+
         const { data } = await axios.post(
           '/api/users/refresh',
           {},
@@ -97,6 +107,8 @@ export default function QuestionCard({
           isClosable: true,
         });
 
+        setLoading(false);
+
         setRerender(!rerender);
       }
     } catch (error) {
@@ -107,10 +119,12 @@ export default function QuestionCard({
         duration: 9000,
         isClosable: true,
       });
+
+      setLoading(false);
     }
   };
 
-  return (
+  return !loading ? (
     <Box p={4} bg="gray.100" borderRadius="lg" mb={5}>
       <Box mt={{ base: 4, md: 0 }}>
         <Badge
@@ -202,5 +216,16 @@ export default function QuestionCard({
         </Flex>
       </Box>
     </Box>
+  ) : (
+    <Center>
+      <Spinner
+        thickness="2px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="red.400"
+        w={50}
+        h={50}
+      />
+    </Center>
   );
 }
