@@ -136,6 +136,15 @@ export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
               width="100%"
               colorScheme={'twitter'}
               leftIcon={<TiSocialTwitter />}
+              onClick={() =>
+                toast({
+                  title: 'Under construction!',
+                  description: 'Currently working on implementing this',
+                  status: 'warning',
+                  duration: 9000,
+                  isClosable: true,
+                })
+              }
             >
               <Center>
                 <Text>Sign in with Twitter</Text>
@@ -148,6 +157,15 @@ export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
               width="100%"
               colorScheme={'gray'}
               leftIcon={<GoMarkGithub />}
+              onClick={() =>
+                toast({
+                  title: 'Under construction!',
+                  description: 'Currently working on implementing this',
+                  status: 'warning',
+                  duration: 9000,
+                  isClosable: true,
+                })
+              }
             >
               <Center>
                 <Text>Sign in with GitHub</Text>

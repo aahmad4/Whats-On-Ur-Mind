@@ -6,7 +6,6 @@ const userDetailsFromStorage = localStorage.getItem('userDetails')
 
 const store = createState({
   userDetails: userDetailsFromStorage,
-  questions: [],
 });
 
 export default store;

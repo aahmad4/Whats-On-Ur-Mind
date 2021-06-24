@@ -26,8 +26,8 @@ class CreateCheckoutSession(Resource):
 
         try:
             checkout_session = stripe.checkout.Session.create(
-                success_url='https://whatsonurmind.herokuapp.com/?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url='https://whatsonurmind.herokuapp.com/',
+                success_url='http://localhost:3000/?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url='http://localhost:3000/',
                 payment_method_types=['card'],
                 mode='subscription',
                 line_items=[{
@@ -100,7 +100,15 @@ class CancelSubscription(Resource):
         refresh_token = create_refresh_token(current_user.username)
 
         if not current_user.is_subscribed:
-            return {"message": "You're not even subscribed!"}
+            return {
+                "message": "You're not even subscribed...",
+                'id': current_user.id,
+                'username': current_user.username,
+                'email': current_user.email,
+                'is_subscribed': current_user.is_subscribed,
+                'access_token': access_token,
+                'refresh_token': refresh_token
+            }
 
         stripe.Subscription.delete(current_user.subscription_id)
 

@@ -33,6 +33,11 @@ class UserModel(db.Model):
             'questions': [question.json() for question in self.questions.all()][::-1]
         }
 
+    def answered_questions(self):
+        return {
+            'questions': [question.json() for question in self.questions.all() if question.answered_on][::-1]
+        }
+
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()

@@ -154,6 +154,15 @@ export default function RegisterModal({
               width="100%"
               colorScheme={'twitter'}
               leftIcon={<TiSocialTwitter />}
+              onClick={() =>
+                toast({
+                  title: 'Under construction!',
+                  description: 'Currently working on implementing this',
+                  status: 'warning',
+                  duration: 9000,
+                  isClosable: true,
+                })
+              }
             >
               <Center>
                 <Text>Sign up with Twitter</Text>
@@ -166,6 +175,15 @@ export default function RegisterModal({
               width="100%"
               colorScheme={'gray'}
               leftIcon={<GoMarkGithub />}
+              onClick={() =>
+                toast({
+                  title: 'Under construction!',
+                  description: 'Currently working on implementing this',
+                  status: 'warning',
+                  duration: 9000,
+                  isClosable: true,
+                })
+              }
             >
               <Center>
                 <Text>Sign up with GitHub</Text>

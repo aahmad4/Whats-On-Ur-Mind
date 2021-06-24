@@ -52,7 +52,9 @@ export default function Pricing() {
     const { data } = await axios.post(
       '/api/create-checkout-session',
       {
-        priceId: 'price_1J5foQBeiRoYwiWqGnEqXi9s',
+        priceId:
+          process.env.REACT_APP_STRIPE_PRICE_ID ||
+          'price_1J5foQBeiRoYwiWqGnEqXi9s',
       },
       {
         headers: {

@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
     get_jwt_identity,
     jwt_required,
+    jwt_optional
 )
 
 from server.models.questions import QuestionModel
@@ -14,13 +15,23 @@ class QuestionList(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('question_text', type=str)
 
+    @jwt_optional
     def get(self, username):
         user = UserModel.find_by_username(username)
+        current_user = UserModel.query.filter_by(
+            username=get_jwt_identity()
+        ).first()
 
         if not user:
             return {'message': 'User Not Found'}, 404
 
-        return user.json()
+        if not current_user or user.id != current_user.id:
+            return user.answered_questions()
+
+        if current_user.id == user.id:
+            return user.json()
+
+        return {"message": "Something went wrong."}, 500
 
     def post(self, username):
         data = self.parser.parse_args()
@@ -61,7 +72,7 @@ class QuestionOptions(Resource):
 
         if not data['update_text']:
             if not user.is_subscribed and len([question for question in user.questions.all() if question.answered_on != None]) >= 5:
-                return {'message': 'Surpassed answer limit. Subscribe to continue answering questions'}, 401
+                return {'message': 'Upgrade to premium to answer more questions'}, 401
 
             question = QuestionModel.find_by_id_and_user_id(
                 id=question_id,

@@ -14,6 +14,8 @@ import {
   Tab,
   TabPanels,
   TabPanel,
+  Spinner,
+  Center,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon, LinkIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
@@ -25,25 +27,48 @@ import { useState as useHookState } from '@hookstate/core';
 import store from '../store';
 
 export default function DashboardScreen({ history }) {
-  const { userDetails, questions } = useHookState(store);
+  const { userDetails } = useHookState(store);
 
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [rerender, setRerender] = useState(false);
   const [codeModalOpen, setCodeModalOpen] = useState(false);
 
   useEffect(() => {
     if (userDetails.get()) {
       const fetchQuestions = async () => {
-        const { data } = await axios.get(
-          `/api/questions/${userDetails.get().username}`
+        setLoading(true);
+
+        const { data } = await axios.post(
+          '/api/users/refresh',
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${userDetails.get().refresh_token}`,
+            },
+          }
         );
 
-        questions.set(data.questions);
-      };
+        const { data: questionData } = await axios.get(
+          `/api/questions/${userDetails.get().username}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${data.access_token}`,
+            },
+          }
+        );
 
+        setQuestions(questionData.questions);
+        setLoading(false);
+      };
       fetchQuestions();
     } else {
       history.push('/');
     }
-  }, [history, userDetails, questions]);
+    // eslint-disable-next-line
+  }, [history, rerender]);
 
   return (
     <>
@@ -105,26 +130,54 @@ export default function DashboardScreen({ history }) {
           </TabList>
           <TabPanels>
             <TabPanel>
-              {questions.get().map(question => {
+              {loading && (
+                <Center>
+                  <Spinner
+                    thickness="2px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="red.400"
+                    w={50}
+                    h={50}
+                  />
+                </Center>
+              )}
+              {questions.map(question => {
                 return (
                   !question.answer_text && (
                     <QuestionCard
                       key={question.id}
                       question={question}
                       userDetails={userDetails}
+                      rerender={rerender}
+                      setRerender={setRerender}
                     />
                   )
                 );
               })}
             </TabPanel>
             <TabPanel>
-              {questions.get().map(question => {
+              {loading && (
+                <Center>
+                  <Spinner
+                    thickness="2px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="red.400"
+                    w={50}
+                    h={50}
+                  />
+                </Center>
+              )}
+              {questions.map(question => {
                 return (
                   question.answer_text && (
                     <AnswerCard
                       key={question.id}
                       question={question}
                       userDetails={userDetails}
+                      rerender={rerender}
+                      setRerender={setRerender}
                     />
                   )
                 );
