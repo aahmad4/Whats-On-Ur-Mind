@@ -12,8 +12,6 @@ class QuestionModel(db.Model):
     answered_on = db.Column(db.DateTime, default=None)
     answer_updated_on = db.Column(db.DateTime, default=None)
 
-    testing = db.Column(db.DateTime)
-
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __init__(self, question_text, user_id, asked_on):
