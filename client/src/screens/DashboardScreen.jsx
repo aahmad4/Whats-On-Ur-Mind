@@ -76,11 +76,12 @@ export default function DashboardScreen({ history }) {
       <Container maxW="5xl">
         <Box p={8} borderRadius="lg" bg="blackAlpha.300" mt={8}>
           <Heading as="h1" fontSize="3xl">
-            Welcome to your AMA dashboard! 👋
+            Welcome to your Whatsonurmind dashboard! 👋
           </Heading>
           <Text mt={2} color="gray.600" fontSize="1xl">
-            Start collecting questions, by sharing a link to your public
-            dashboard or embedding it to your personal website.
+            Send out your link to others or embed your Q&A page to another
+            website. Then wait for questions to start showing up here and you
+            can answer them at your ease! Have fun!
           </Text>
           <Flex mt={8}>
             <Wrap>

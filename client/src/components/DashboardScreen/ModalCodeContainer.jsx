@@ -29,17 +29,18 @@ export default function ModalCodeContainer({
         <ModalCloseButton />
         <ModalBody>
           <Text mb="1rem">
-            To embed your AMA dashboard on your website, just add the following
-            3 lines of code to your HTML. If you have any troubles with the
-            integration just contact us and we will sort it out!
+            To embed your custom Q&A page on another website, simply hit the
+            copy button and then paste this into your HTML. If there are any
+            bugs you face during the integration, please contact me and I will
+            try to resolve the issue.
           </Text>
           {userDetails.get() && (
             <CopyBlock
               text={`<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.1/iframeResizer.min.js"></script>
 <iframe src="https://whatsonurmind.herokuapp.com/ask/@${
                 userDetails.get().username
-              }" id="ama-dashboard" frameborder="0" scrolling="no" width="100%"></iframe>
-<script type="text/javascript">iFrameResize({log: false, checkOrigin: false}, "#ama-dashboard");</script>`}
+              }" id="whatsonurmind-dashboard" frameborder="0" scrolling="no" width="100%"></iframe>
+<script type="text/javascript">iFrameResize({log: false, checkOrigin: false}, "#whatsonurmind-dashboard");</script>`}
               showLineNumbers
               codeBlock
               language="html"

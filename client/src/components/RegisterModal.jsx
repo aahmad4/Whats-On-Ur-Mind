@@ -155,13 +155,14 @@ export default function RegisterModal({
               colorScheme={'twitter'}
               leftIcon={<TiSocialTwitter />}
               onClick={() =>
-                toast({
-                  title: 'Under construction!',
-                  description: 'Currently working on implementing this',
-                  status: 'warning',
-                  duration: 9000,
-                  isClosable: true,
-                })
+                // toast({
+                //   title: 'Under construction!',
+                //   description: 'Currently working on implementing this',
+                //   status: 'warning',
+                //   duration: 9000,
+                //   isClosable: true,
+                // })
+                console.log('Please try the other sign up options')
               }
             >
               <Center>
@@ -176,13 +177,14 @@ export default function RegisterModal({
               colorScheme={'gray'}
               leftIcon={<GoMarkGithub />}
               onClick={() =>
-                toast({
-                  title: 'Under construction!',
-                  description: 'Currently working on implementing this',
-                  status: 'warning',
-                  duration: 9000,
-                  isClosable: true,
-                })
+                // toast({
+                //   title: 'Under construction!',
+                //   description: 'Currently working on implementing this',
+                //   status: 'warning',
+                //   duration: 9000,
+                //   isClosable: true,
+                // })
+                console.log('Please try the other sign up options')
               }
             >
               <Center>

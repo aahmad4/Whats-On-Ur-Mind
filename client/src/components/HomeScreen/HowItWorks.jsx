@@ -54,7 +54,7 @@ export default function HowItWorks() {
           </Text>
           <Heading>How it works</Heading>
           <Text color={'gray.500'} fontSize={'lg'}>
-            Nothing complicated. A simple tool with a simple use.
+            Simple, straightforward, and easy to use!
           </Text>
           <Stack
             spacing={4}
@@ -69,7 +69,7 @@ export default function HowItWorks() {
                 <Icon as={RiFileCopy2Fill} color={'yellow.500'} w={5} h={5} />
               }
               iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-              text={'Copy and share your personal link'}
+              text={'Create an account, then copy and share your custom link'}
             />
             <Feature
               icon={
@@ -81,7 +81,7 @@ export default function HowItWorks() {
                 />
               }
               iconBg={useColorModeValue('green.100', 'green.900')}
-              text={'Collect questions'}
+              text={'Wait for the questions to roll in'}
             />
             <Feature
               icon={
@@ -93,7 +93,7 @@ export default function HowItWorks() {
                 />
               }
               iconBg={useColorModeValue('purple.100', 'purple.900')}
-              text={'Receive and answer'}
+              text={'Answer them upon receiving in your dashboard'}
             />
           </Stack>
         </Stack>

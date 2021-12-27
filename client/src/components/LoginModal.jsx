@@ -137,13 +137,14 @@ export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
               colorScheme={'twitter'}
               leftIcon={<TiSocialTwitter />}
               onClick={() =>
-                toast({
-                  title: 'Under construction!',
-                  description: 'Currently working on implementing this',
-                  status: 'warning',
-                  duration: 9000,
-                  isClosable: true,
-                })
+                // toast({
+                //   title: 'Under construction!',
+                //   description: 'Currently working on implementing this',
+                //   status: 'warning',
+                //   duration: 9000,
+                //   isClosable: true,
+                // })
+                console.log('Please try the other login options')
               }
             >
               <Center>
@@ -158,13 +159,14 @@ export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
               colorScheme={'gray'}
               leftIcon={<GoMarkGithub />}
               onClick={() =>
-                toast({
-                  title: 'Under construction!',
-                  description: 'Currently working on implementing this',
-                  status: 'warning',
-                  duration: 9000,
-                  isClosable: true,
-                })
+                // toast({
+                //   title: 'Under construction!',
+                //   description: 'Currently working on implementing this',
+                //   status: 'warning',
+                //   duration: 9000,
+                //   isClosable: true,
+                // })
+                console.log('Please try the other login options')
               }
             >
               <Center>

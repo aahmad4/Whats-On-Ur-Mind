@@ -159,7 +159,7 @@ export default function Pricing() {
           Pricing
         </Heading>
         <Text color={'gray.600'} fontSize={'xl'}>
-          Start out free. Upgrade as needed.
+          Start free. Subscribe when famous.
         </Text>
       </Stack>
       <Stack
@@ -196,14 +196,14 @@ export default function Pricing() {
                 <ListIcon as={FaCheckCircle} color="green.500" />
                 Five answers
               </ListItem>
-              <ListItem>
+              {/* <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
                 Create account
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
                 Share link with others
-              </ListItem>
+              </ListItem> */}
             </List>
             <Box w="80%" pt={7}>
               {userDetails.get() ? (
@@ -262,14 +262,14 @@ export default function Pricing() {
                 <ListIcon as={FaCheckCircle} color="green.500" />
                 Unlimited answers
               </ListItem>
-              <ListItem>
+              {/* <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
                 Customize account
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
                 Embed on other media
-              </ListItem>
+              </ListItem> */}
             </List>
             <Box w="80%" pt={7}>
               {userDetails.get() && !userDetails.get().is_subscribed ? (

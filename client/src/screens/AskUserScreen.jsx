@@ -100,7 +100,8 @@ export default function AskUserScreen({ history, match }) {
         anything
       </Heading>
       <Text color="gray.500" fontSize="1.4rem" my={2} mb={4}>
-        Questions will be visible once they are answered.
+        Once the question is answered, both the question and answer will show
+        here
       </Text>
       <Textarea
         rows="6"
