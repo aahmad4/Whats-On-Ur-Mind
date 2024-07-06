@@ -14,7 +14,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { EditIcon, ChevronUpIcon, DeleteIcon } from '@chakra-ui/icons';
-import TimeAgo from 'timeago-react';
+import TimeAgo from 'react-timeago';
 
 export default function QuestionCard({
   question,
@@ -168,7 +168,7 @@ export default function QuestionCard({
         <Flex mt={3}>
           <Box>
             <Text mt={2} color="gray.400" fontSize="sm">
-              Asked <TimeAgo datetime={question.asked_on} />
+              Asked <TimeAgo date={question.asked_on} />
             </Text>
           </Box>
           <Spacer />

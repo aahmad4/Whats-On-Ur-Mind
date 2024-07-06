@@ -46,7 +46,7 @@ class CreateSubscription(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('sessionId', type=str)
 
-    @jwt_required
+    @jwt_required()
     def post(self):
         data = self.parser.parse_args()
         current_user = UserModel.query.filter_by(
@@ -88,7 +88,7 @@ class CreateSubscription(Resource):
 
 
 class CancelSubscription(Resource):
-    @jwt_required
+    @jwt_required()
     def put(self):
         current_user = UserModel.query.filter_by(
             username=get_jwt_identity()

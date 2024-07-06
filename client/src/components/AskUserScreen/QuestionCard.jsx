@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import TimeAgo from 'timeago-react';
+import TimeAgo from 'react-timeago';
 
 export default function QuestionCard({ question }) {
   return (
@@ -29,11 +29,11 @@ export default function QuestionCard({ question }) {
         </Text>
         {!question.answer_updated_on ? (
           <Text mt={2} color="gray.400" fontSize="sm">
-            Answered <TimeAgo datetime={question.answered_on} />
+            Answered <TimeAgo date={question.answered_on} />
           </Text>
         ) : (
           <Text mt={2} color="gray.400" fontSize="sm">
-            Answer updated <TimeAgo datetime={question.answer_updated_on} />
+            Answer updated <TimeAgo date={question.answer_updated_on} />
           </Text>
         )}
       </Box>

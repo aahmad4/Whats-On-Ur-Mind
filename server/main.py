@@ -25,15 +25,15 @@ app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 jwt = JWTManager(app)
 
 
-@jwt.user_claims_loader
+@jwt.additional_claims_loader
 def add_claims_to_jwt(identity):
     if identity == 1:
         return {'is_admin': True}
     return {'is_admin': False}
 
 
-@jwt.token_in_blacklist_loader
-def check_if_token_in_blacklist(decrypted_token):
+@jwt.token_in_blocklist_loader
+def check_if_token_in_blacklist(ignored, decrypted_token):
     return decrypted_token['jti'] in BLACKLIST
 
 
@@ -75,11 +75,6 @@ def revoked_token_callback():
         "description": "The token has been revoked.",
         'error': 'token_revoked'
     }), 401
-
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 
 @app.route('/')

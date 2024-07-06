@@ -1,8 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
     get_jwt_identity,
-    jwt_required,
-    jwt_optional
+    jwt_required
 )
 
 from server.models.questions import QuestionModel
@@ -15,7 +14,7 @@ class QuestionList(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('question_text', type=str)
 
-    @jwt_optional
+    @jwt_required(optional=True)
     def get(self, username):
         user = UserModel.find_by_username(username)
         current_user = UserModel.query.filter_by(
@@ -59,7 +58,7 @@ class QuestionOptions(Resource):
     parser.add_argument('answer_text', type=str)
     parser.add_argument('update_text', type=str)
 
-    @jwt_required
+    @jwt_required()
     def put(self, username, question_id):
         data = self.parser.parse_args()
         user = UserModel.find_by_username(username)
@@ -97,7 +96,7 @@ class QuestionOptions(Resource):
 
             return question.json()
 
-    @jwt_required
+    @jwt_required()
     def delete(self, username, question_id):
         user = UserModel.find_by_username(username)
         current_user = UserModel.query.filter_by(

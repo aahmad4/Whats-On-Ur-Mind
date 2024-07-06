@@ -16,7 +16,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { useState as useHookState } from '@hookstate/core';
+import { useHookstate } from '@hookstate/core';
 import store from '../store';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
@@ -28,7 +28,7 @@ export default function Navbar({ page, history }) {
   const bg = useColorModeValue('white', 'gray.800');
   const mobileNav = useDisclosure();
 
-  const { userDetails } = useHookState(store);
+  const { userDetails } = useHookstate(store);
 
   const toast = useToast();
 

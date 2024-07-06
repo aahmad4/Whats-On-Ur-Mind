@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { TiSocialTwitter } from 'react-icons/ti';
 import { GoMarkGithub } from 'react-icons/go';
-import { useState as useHookState } from '@hookstate/core';
+import { useHookstate } from '@hookstate/core';
 import store from '../store';
 import DividerWithText from './DividerWithText';
 import AlertMessage from './AlertMessage';
@@ -29,7 +29,7 @@ export default function LoginModal({ isOpen, setLoginModalOpen, history }) {
 
   const initialRef = useRef();
 
-  const { userDetails } = useHookState(store);
+  const { userDetails } = useHookstate(store);
 
   const toast = useToast();
 

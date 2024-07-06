@@ -17,13 +17,12 @@ import {
 } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useState as useHookState } from '@hookstate/core';
+import { useHookstate } from '@hookstate/core';
 import store from '../../store';
 import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(
-  process.env.REACT_APP_STRIPE_PUBLIC_KEY ||
-    'pk_live_51J5J3CBeiRoYwiWquyUr3n3YKXUPCgukHiEtbffmfQLWG8X1QpE6rcIk3po6uCk9zE2r1mgfafC9c2b36YMuw0sg00TFUFJgnH'
+  'pk_live_51J5J3CBeiRoYwiWquyUr3n3YKXUPCgukHiEtbffmfQLWG8X1QpE6rcIk3po6uCk9zE2r1mgfafC9c2b36YMuw0sg00TFUFJgnH'
 );
 
 function PriceWrapper({ children }) {
@@ -42,7 +41,7 @@ function PriceWrapper({ children }) {
 }
 
 export default function Pricing() {
-  const { userDetails } = useHookState(store);
+  const { userDetails } = useHookstate(store);
 
   const toast = useToast();
 
@@ -52,9 +51,7 @@ export default function Pricing() {
     const { data } = await axios.post(
       '/api/create-checkout-session',
       {
-        priceId:
-          process.env.REACT_APP_STRIPE_PRICE_ID ||
-          'price_1J5foQBeiRoYwiWqGnEqXi9s',
+        priceId: 'price_1J5foQBeiRoYwiWqGnEqXi9s',
       },
       {
         headers: {

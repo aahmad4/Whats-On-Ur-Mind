@@ -23,11 +23,11 @@ import Navbar from '../components/Navbar';
 import QuestionCard from '../components/DashboardScreen/QuestionCard';
 import AnswerCard from '../components/DashboardScreen/AnswerCard';
 import ModalCodeContainer from '../components/DashboardScreen/ModalCodeContainer';
-import { useState as useHookState } from '@hookstate/core';
+import { useHookstate } from '@hookstate/core';
 import store from '../store';
 
 export default function DashboardScreen({ history }) {
-  const { userDetails } = useHookState(store);
+  const { userDetails } = useHookstate(store);
 
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
