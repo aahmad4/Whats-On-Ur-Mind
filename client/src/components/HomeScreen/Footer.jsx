@@ -9,7 +9,7 @@ export default function Footer() {
       mb={8}
     >
       <Center>
-        <Text>© 2021 Whats On Ur Mind?</Text>
+        <Text>© 2024 Whats On Ur Mind?</Text>
       </Center>
     </Box>
   );

@@ -69,7 +69,7 @@ export default function HowItWorks() {
                 <Icon as={RiFileCopy2Fill} color={'yellow.500'} w={5} h={5} />
               }
               iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-              text={'Create an account, then copy and share your custom link'}
+              text={'Sign up and then copy and share your custom link'}
             />
             <Feature
               icon={
@@ -81,7 +81,7 @@ export default function HowItWorks() {
                 />
               }
               iconBg={useColorModeValue('green.100', 'green.900')}
-              text={'Wait for the questions to roll in'}
+              text={'Wait for the questions to start rolling in'}
             />
             <Feature
               icon={
@@ -93,7 +93,9 @@ export default function HowItWorks() {
                 />
               }
               iconBg={useColorModeValue('purple.100', 'purple.900')}
-              text={'Answer them upon receiving in your dashboard'}
+              text={
+                "Answer the ones you want to and discard the ones you don't want to"
+              }
             />
           </Stack>
         </Stack>

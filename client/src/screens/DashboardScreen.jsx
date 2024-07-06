@@ -76,12 +76,12 @@ export default function DashboardScreen({ history }) {
       <Container maxW="5xl">
         <Box p={8} borderRadius="lg" bg="blackAlpha.300" mt={8}>
           <Heading as="h1" fontSize="3xl">
-            Welcome to your Whatsonurmind dashboard! 👋
+            Welcome to your dashboard! 👋
           </Heading>
           <Text mt={2} color="gray.600" fontSize="1xl">
-            Send out your link to others or embed your Q&A page to another
+            Send out your link to others or embed your Q&A page on another
             website. Then wait for questions to start showing up here and you
-            can answer them at your ease! Have fun!
+            can answer them at your leisure! Have fun!
           </Text>
           <Flex mt={8}>
             <Wrap>
@@ -96,7 +96,7 @@ export default function DashboardScreen({ history }) {
                   }}
                   mr="3"
                 >
-                  Embed Widget <LinkIcon mx={2} />
+                  Embed widget <LinkIcon mx={2} />
                 </Button>
               </WrapItem>
               <WrapItem>
@@ -115,7 +115,7 @@ export default function DashboardScreen({ history }) {
                     bg: 'red.300',
                   }}
                 >
-                  Public Dashboard <ExternalLinkIcon mx={2} />
+                  Public dashboard <ExternalLinkIcon mx={2} />
                 </Button>
               </WrapItem>
             </Wrap>

@@ -53,7 +53,7 @@ export default function Features() {
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
           <Feature
             icon={<Icon as={FcAssistant} w={10} h={10} />}
-            title={'Lifetime support'}
+            title={'Active support'}
             text={
               'We are constantly monitoring the platform and listening to our customers for any bugs'
             }
@@ -62,14 +62,14 @@ export default function Features() {
             icon={<Icon as={FcDonate} w={10} h={10} />}
             title={'Pay as you go'}
             text={
-              'Our platform starts out free with complete access. Start paying once you grow your following.'
+              'Our platform starts out completely free. Start paying once you grow your following'
             }
           />
           <Feature
             icon={<Icon as={FcInTransit} w={10} h={10} />}
-            title={'Instant communication'}
+            title={'Fast communication'}
             text={
-              'Response times are instant. Immediately check your new questions and answer them without wait.'
+              'Quickly ask your questions, answer them, and check the responses'
             }
           />
         </SimpleGrid>

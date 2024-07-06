@@ -156,7 +156,7 @@ export default function Pricing() {
           Pricing
         </Heading>
         <Text color={'gray.600'} fontSize={'xl'}>
-          Start free. Subscribe when famous.
+          Start free. Subscribe when famous
         </Text>
       </Stack>
       <Stack

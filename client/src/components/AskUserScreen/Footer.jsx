@@ -12,7 +12,7 @@ export default function Footer() {
     >
       <Center>
         <Text mb="50px">
-          © 2021 Powered by{' '}
+          © 2024 Powered by{' '}
           <Link color="red.500" href="/" target="_blank">
             Whats On Ur Mind? <ExternalLinkIcon mx="2px" />
           </Link>

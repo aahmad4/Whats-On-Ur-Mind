@@ -31,8 +31,8 @@ export default function ModalCodeContainer({
           <Text mb="1rem">
             To embed your custom Q&A page on another website, simply hit the
             copy button and then paste this into your HTML. If there are any
-            bugs you face during the integration, please contact me and I will
-            try to resolve the issue.
+            bugs you face during the integration, please contact us and we will
+            try to resolve the issue
           </Text>
           {userDetails.get() && (
             <CopyBlock
