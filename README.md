@@ -48,12 +48,6 @@ Python Flask server:
 $ pip install -r requirements.txt
 ```
 
-or
-
-```sh
-$ pipenv install
-```
-
 #### Usage
 
 In order to run this project locally, you must start the server and client dev servers in separate terminals.
@@ -66,21 +60,6 @@ $ npm start
 ```
 
 To start the Python Flask server, run the following in the root directory.
-
-If you have pipenv:
-
-```bash
-$ pipenv run python app.py
-```
-
-Otherwise:
-
-```bash
-$ export FLASK_APP=app.py
-$ flask run
-```
-
-or
 
 ```bash
 $ python app.py
